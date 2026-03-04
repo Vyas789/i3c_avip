@@ -98,6 +98,8 @@ daa_error = uvm_reg_field::type_id::create("daa_error");
 nak = uvm_reg_field::type_id::create("nak");
     nak.configure(this, 1, 6, "RO", 0, 0, 1, 0, 0);
 
+reserved = uvm_reg_field::type_id::create("reserved");
+    reserved.configure(this, 25, 7, "RO", 0, 0, 1, 0, 0);
   endfunction
 
 endclass
@@ -113,6 +115,9 @@ class i3c_dynaddr_reg extends uvm_reg;
   virtual function void build();
     dyn_addr = uvm_reg_field::type_id::create("dyn_addr");
     dyn_addr.configure(this, 7, 0, "RO", 0, 0, 1, 0, 0);
+					
+    reserved = uvm_reg_field::type_id::create("reserved");
+    reserved.configure(this, 25, 7, "RO", 0, 0, 1, 0, 0);
   endfunction
 
 endclass
@@ -128,7 +133,7 @@ class i3c_wdatab_reg extends uvm_reg;
 
   virtual function void build();
     tx_data = uvm_reg_field::type_id::create("tx_data");
-    tx_data.configure(this, 8, 0, "WO", 0, 0, 1, 0, 0);
+    tx_data.configure(this, 8, 0, "RW", 0, 0, 1, 0, 0);
   endfunction
 
 endclass
