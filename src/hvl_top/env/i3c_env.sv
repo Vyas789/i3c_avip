@@ -80,10 +80,16 @@ class i3c_env extends uvm_env;
   top_virtual_sequencer top_virtual_seqr_h;
   i3c_env_config     i3c_env_cfg_h;
   apb_env_config apb_env_cfg_h; 
-
+	
   //  apb_i3c_scoreboard     apb_i3c_scoreboard_h;
-
-  extern function new(string name = "i3c_env", uvm_component parent = null);
+//ral
+	i3c_ral_reg_block regmodel;
+				
+	apb_master_adapter adapter_inst;
+				
+	uvm_reg_predictor#(apb_master_tx) topPredictor;
+  
+	extern function new(string name = "i3c_env", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
 endclass : i3c_env
@@ -120,6 +126,13 @@ if(!uvm_config_db #(apb_env_config)::get(this,"","apb_env_config",apb_env_cfg_h)
 // Create Virtual Sequencer
   top_virtual_seqr_h =top_virtual_sequencer::type_id::create("top_virtual_seqr_h", this);
 
+	//adapter and predictor
+	adapter_inst = apb_master_adapter :: type_id :: create("adapter_inst");
+  topPredictor = uvm_reg_predictor#(apb_master_tx) :: type_id :: create("topPredictor",this);
+
+regmodel =i3c_ral_reg_block::type_id::create("regmodel", this);
+regmodel.build();
+
 endfunction
 
 //connect phase
@@ -140,7 +153,13 @@ if(apb_env_cfg_h.has_virtual_seqr) begin
 end
 
 //apb_master_agent_h.apb_master_mon_proxy_h.apb_master_analysis_port.connect(apb_scoreboard_h.apb_master_analysis_fifo.analysis_export);
+				topPredictor.map= regmodel.default_map;
+				topPredictor.adapter= adapter_inst;
+//reg model connection	
+ regmodel.default_map.set_sequencer(.sequencer(apb_master_agent_h.apb_master_seqr_h) ,.adapter(adapter_inst) );
+regmodel.default_map.set_auto_predict(0);
 
+apb_master_agent_h.apb_master_mon_proxy_h.apb_master_analysis_port.connect(topPredictor.bus_in);
 endfunction
 
 endclass
