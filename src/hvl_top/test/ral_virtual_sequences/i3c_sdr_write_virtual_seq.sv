@@ -1,0 +1,87 @@
+`ifndef I3C_SDR_WRITE_VIRTUAL_SEQ_INCLUDED_
+`define I3C_SDR_WRITE_VIRTUAL_SEQ_INCLUDED_
+
+class i3c_sdr_write_virtual_seq extends top_virtual_base_seq;
+  `uvm_object_utils(i3c_sdr_write_virtual_seq)
+
+  uvm_status_e status;
+  uvm_reg_data_t ctrl_val;
+  uvm_reg_data_t ctrl_mirror;
+  uvm_reg_data_t wdatab_mirror;
+
+  function new(string name = "i3c_sdr_write_virtual_seq");
+    super.new(name);
+  endfunction
+
+
+  task body();
+    super.body();
+
+    i3c_target_writeOperationWith8bitsData_seq target_seq_write;
+
+    `uvm_info(get_type_name(), "Starting SDR WRITE test", UVM_LOW)
+
+
+    // Start Target sequence
+    fork
+      forever begin
+        target_seq_write = i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_seq_write");
+        target_seq_write.start(p_sequencer.i3c_target_seqr_h);
+      end
+    join_none;
+
+
+    // WDATAB REGISTER VERIFY
+
+    // Write data to WDATAB
+    p_sequencer.regmodel.wdatab_inst.write(status, 8'hA5);
+
+    // Get mirrored value
+    wdatab_mirror = p_sequencer.regmodel.wdatab_inst.get_mirrored_value();
+
+    `uvm_info("WDATAB_DEBUG",
+      $sformatf("WDATAB mirrored value = %0h", wdatab_mirror),
+      UVM_LOW)
+
+    // Read DUT and compare
+    p_sequencer.regmodel.wdatab_inst.mirror(status, UVM_CHECK);
+
+
+
+    // CTRL REGISTER VERIFY
+
+    // Configure CTRL register fields
+    p_sequencer.regmodel.ctrl_inst.address.set(TARGET0_ADDRESS);
+    p_sequencer.regmodel.ctrl_inst.length.set(8'd1);
+    p_sequencer.regmodel.ctrl_inst.direction.set(1'b0); // write
+    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'b00); // SDR
+    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
+
+    // Get value before update
+    ctrl_val = p_sequencer.regmodel.ctrl_inst.get();
+
+    `uvm_info("CTRL_DEBUG",
+      $sformatf("CTRL value before update = %0h", ctrl_val),
+      UVM_LOW)
+
+    // Write CTRL register to DUT
+    p_sequencer.regmodel.ctrl_inst.update(status);
+
+    // Get mirror value
+    ctrl_mirror = p_sequencer.regmodel.ctrl_inst.get_mirrored_value();
+
+    `uvm_info("CTRL_DEBUG",
+      $sformatf("CTRL mirrored value after update = %0h", ctrl_mirror),
+      UVM_LOW)
+
+    // Read DUT and compare
+    p_sequencer.regmodel.ctrl_inst.mirror(status, UVM_CHECK);
+
+
+    `uvm_info(get_type_name(), "SDR WRITE issued and registers verified", UVM_LOW)
+
+  endtask
+
+endclass
+
+`endif
