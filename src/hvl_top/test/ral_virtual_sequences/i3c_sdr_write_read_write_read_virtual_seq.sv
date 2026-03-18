@@ -14,106 +14,93 @@ class i3c_sdr_write_read_write_read_virtual_seq extends top_virtual_base_seq;
     super.new(name);
   endfunction
 
-
   task body();
     super.body();
 
     i3c_target_writeOperationWith8bitsData_seq target_write_seq;
     i3c_target_readOperationWith8bitsData_seq  target_read_seq;
 
+    // Start the target sequences
     fork
       forever begin
         target_write_seq =
-        i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_write_seq");
+          i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_write_seq");
         target_write_seq.start(p_sequencer.i3c_target_seqr_h);
       end
       forever begin
         target_read_seq =
-        i3c_target_readOperationWith8bitsData_seq::type_id::create("target_read_seq");
+          i3c_target_readOperationWith8bitsData_seq::type_id::create("target_read_seq");
         target_read_seq.start(p_sequencer.i3c_target_seqr_h);
       end
     join_none
 
 
-// WRITE 1
-    p_sequencer.regmodel.wdatab_inst.write(status, 8'hA5);
+    // WRITE 1 using reg handle from env config
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'hA5);
+    wdatab_mirror = i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
-    wdatab_mirror =
-    p_sequencer.regmodel.wdatab_inst.get_mirrored_value();
-
-    p_sequencer.regmodel.wdatab_inst.mirror(status, UVM_CHECK);
-
-    p_sequencer.regmodel.ctrl_inst.address.set(TARGET0_ADDRESS);
-    p_sequencer.regmodel.ctrl_inst.length.set(8'd1);
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b0);
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'b00);
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.cmd_type.set(2'b00);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
     sdr_done = 0;
     while(!sdr_done) begin
-      p_sequencer.regmodel.status_inst.read(status, rdata);
+      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
       sdr_done = rdata[0];
-      @(posedge p_sequencer.vif.clk);
+      #1000;
     end
 
 
-// READ 1
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b1);
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    // READ 1
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
     sdr_done = 0;
     while(!sdr_done) begin
-      p_sequencer.regmodel.status_inst.read(status, rdata);
+      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
       sdr_done = rdata[0];
-      @(posedge p_sequencer.vif.clk);
+      #1000;
     end
+    i3c_env_cfg_h.regBlockHandle.rdatab_inst.read(status, rdata);
 
-    p_sequencer.regmodel.rdatab_inst.read(status, rdata);
 
+    // WRITE 2
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'h3C);
+    wdatab_mirror = i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
-// WRITE 2
-    p_sequencer.regmodel.wdatab_inst.write(status, 8'h3C);
-
-    wdatab_mirror =
-    p_sequencer.regmodel.wdatab_inst.get_mirrored_value();
-
-    p_sequencer.regmodel.wdatab_inst.mirror(status, UVM_CHECK);
-
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b0);
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
     sdr_done = 0;
     while(!sdr_done) begin
-      p_sequencer.regmodel.status_inst.read(status, rdata);
+      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
       sdr_done = rdata[0];
-      @(posedge p_sequencer.vif.clk);
+      #1000;
     end
 
 
-// READ 2
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b1);
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    // READ 2
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
     sdr_done = 0;
     while(!sdr_done) begin
-      p_sequencer.regmodel.status_inst.read(status, rdata);
+      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
       sdr_done = rdata[0];
-      @(posedge p_sequencer.vif.clk);
+      #1000;
     end
-
-    p_sequencer.regmodel.rdatab_inst.read(status, rdata);
+    i3c_env_cfg_h.regBlockHandle.rdatab_inst.read(status, rdata);
 
   endtask
 
 endclass
 
 `endif
- 

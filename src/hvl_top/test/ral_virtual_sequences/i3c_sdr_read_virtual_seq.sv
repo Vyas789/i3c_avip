@@ -1,4 +1,3 @@
-// Code your design here
 `ifndef I3C_SDR_READ_VIRTUAL_SEQ_INCLUDED_
 `define I3C_SDR_READ_VIRTUAL_SEQ_INCLUDED_
 
@@ -26,6 +25,8 @@ class i3c_sdr_read_virtual_seq extends top_virtual_base_seq;
 
     `uvm_info(get_type_name(), "Starting SDR READ test", UVM_LOW)
 
+
+    // Start target sequence
     fork
       begin
         target_seq_read = i3c_target_readOperationWith8bitsData_seq::type_id::create("target_seq_read");
@@ -34,13 +35,15 @@ class i3c_sdr_read_virtual_seq extends top_virtual_base_seq;
     join_none;
 
 
+
     // Configure CTRL register
-    p_sequencer.regmodel.ctrl_inst.address.set(TARGET0_ADDRESS);
-    p_sequencer.regmodel.ctrl_inst.length.set(8'd1);
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b1); // READ
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'b00); // SDR
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b1); // READ
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.cmd_type.set(2'b00); // SDR
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status, .parent(this));
 
     if(status != UVM_IS_OK)
       `uvm_error("RAL","CTRL register write failed")
@@ -48,20 +51,19 @@ class i3c_sdr_read_virtual_seq extends top_virtual_base_seq;
     `uvm_info(get_type_name(), "SDR READ command issued", UVM_LOW)
 
 
-    // Wait for SDR transaction to complete
     do begin
-      p_sequencer.regmodel.status_inst.read(status, rdata);
+      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
       busy = rdata[2]; // SDR_BUSY
       #100ns;
     end while(busy);
 
 
-    // Check SDR_DONE
+    // Status checks
     done = rdata[0];
+
     if(!done)
       `uvm_error("SDR_READ","SDR transaction did not complete")
 
-    // Check errors
     if(rdata[4])
       `uvm_error("SDR_READ","SDR_ERROR detected")
 
@@ -69,27 +71,26 @@ class i3c_sdr_read_virtual_seq extends top_virtual_base_seq;
       `uvm_error("SDR_READ","NAK received from target")
 
 
-    // Read data from RDATAB
-    p_sequencer.regmodel.rdatab_inst.read(status, rdata);
+    // Read RDATAB
+    i3c_env_cfg_h.regBlockHandle.rdatab_inst.read(status, rdata);
 
     if(status != UVM_IS_OK)
       `uvm_error("RAL","RDATAB read failed")
 
 
-    rdata_get = p_sequencer.regmodel.rdatab_inst.get();
-    rdata_mirror = p_sequencer.regmodel.rdatab_inst.get_mirrored_value();
-
+    rdata_get    = i3c_env_cfg_h.regBlockHandle.rdatab_inst.get();
+    rdata_mirror = i3c_env_cfg_h.regBlockHandle.rdatab_inst.get_mirrored_value();
 
     `uvm_info("RDATAB_DEBUG",
-      $sformatf("RDATAB read value (DUT)      = %0h", rdata),
+      $sformatf("RDATAB read value (DUT)   = %0h", rdata),
       UVM_LOW)
 
     `uvm_info("RDATAB_DEBUG",
-      $sformatf("RDATAB get() value (RAL)     = %0h", rdata_get),
+      $sformatf("RDATAB get() value (RAL)  = %0h", rdata_get),
       UVM_LOW)
 
     `uvm_info("RDATAB_DEBUG",
-      $sformatf("RDATAB mirror value (RAL)    = %0h", rdata_mirror),
+      $sformatf("RDATAB mirror value (RAL) = %0h", rdata_mirror),
       UVM_LOW)
 
 
@@ -100,4 +101,3 @@ class i3c_sdr_read_virtual_seq extends top_virtual_base_seq;
 endclass
 
 `endif
- 

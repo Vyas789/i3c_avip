@@ -31,51 +31,46 @@ class i3c_sdr_write_virtual_seq extends top_virtual_base_seq;
     join_none;
 
 
+
     // WDATAB REGISTER VERIFY
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(
+      status,
+      8'hA5,
+      .parent(this)
+    );
 
-    // Write data to WDATAB
-    p_sequencer.regmodel.wdatab_inst.write(status, 8'hA5);
-
-    // Get mirrored value
-    wdatab_mirror = p_sequencer.regmodel.wdatab_inst.get_mirrored_value();
+    wdatab_mirror = i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
 
     `uvm_info("WDATAB_DEBUG",
       $sformatf("WDATAB mirrored value = %0h", wdatab_mirror),
       UVM_LOW)
 
-    // Read DUT and compare
-    p_sequencer.regmodel.wdatab_inst.mirror(status, UVM_CHECK);
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
 
 
     // CTRL REGISTER VERIFY
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.cmd_type.set(2'b00);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
 
-    // Configure CTRL register fields
-    p_sequencer.regmodel.ctrl_inst.address.set(TARGET0_ADDRESS);
-    p_sequencer.regmodel.ctrl_inst.length.set(8'd1);
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b0); // write
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'b00); // SDR
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1);
-
-    // Get value before update
-    ctrl_val = p_sequencer.regmodel.ctrl_inst.get();
+    ctrl_val = i3c_env_cfg_h.regBlockHandle.ctrl_inst.get();
 
     `uvm_info("CTRL_DEBUG",
       $sformatf("CTRL value before update = %0h", ctrl_val),
       UVM_LOW)
 
-    // Write CTRL register to DUT
-    p_sequencer.regmodel.ctrl_inst.update(status);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status, .parent(this));
 
-    // Get mirror value
-    ctrl_mirror = p_sequencer.regmodel.ctrl_inst.get_mirrored_value();
+    ctrl_mirror = i3c_env_cfg_h.regBlockHandle.ctrl_inst.get_mirrored_value();
 
     `uvm_info("CTRL_DEBUG",
       $sformatf("CTRL mirrored value after update = %0h", ctrl_mirror),
       UVM_LOW)
 
-    // Read DUT and compare
-    p_sequencer.regmodel.ctrl_inst.mirror(status, UVM_CHECK);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
 
 
     `uvm_info(get_type_name(), "SDR WRITE issued and registers verified", UVM_LOW)
