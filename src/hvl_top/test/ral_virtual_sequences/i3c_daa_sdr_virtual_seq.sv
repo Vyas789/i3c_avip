@@ -1,246 +1,246 @@
-class i3c_daa_sdr_virtual_seq extends top_virtual_base_seq; 
+class i3c_daa_sdr_virtual_seq extends top_virtual_base_seq;  
 
   
 
-  `uvm_object_utils(i3c_daa_sdr_virtual_seq) 
+  `uvm_object_utils(i3c_daa_sdr_virtual_seq)  
 
   
 
-  uvm_status_e    status; 
+  uvm_status_e    status;  
 
-  uvm_reg_data_t  rdata; 
-
-  
-
-  bit [6:0] dyn_addr; 
-
-  bit daa_done; 
-
-  bit sdr_done; 
+  uvm_reg_data_t  rdata;  
 
   
 
-  bit [7:0] write_data = 8'h55; 
+  bit [6:0] dyn_addr;  
 
-  bit [7:0] read_data; 
+  bit daa_done;  
 
-  
-
-  function new(string name="i3c_daa_sdr_virtual_seq"); 
-
-    super.new(name); 
-
-  endfunction 
+  bit sdr_done;  
 
   
 
-  
+  bit [7:0] write_data = 8'h55;  
 
-  task body(); 
-
-  
-
-    super.body(); 
+  bit [7:0] read_data;  
 
   
 
-    i3c_target_writeOperationWith8bitsData_seq target_wr_seq; 
+  function new(string name="i3c_daa_sdr_virtual_seq");  
 
-    i3c_target_readOperationWith8bitsData_seq  target_rd_seq; 
+    super.new(name);  
 
-  
-
-    fork 
-
-      forever begin 
-
-        target_wr_seq = 
-
-        i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_wr_seq"); 
+  endfunction  
 
   
 
-        target_wr_seq.start(p_sequencer.i3c_target_seqr_h); 
-
-      end 
+  task body();  
 
   
 
-      forever begin 
-
-        target_rd_seq = 
-
-        i3c_target_readOperationWith8bitsData_seq::type_id::create("target_rd_seq"); 
+    super.body();  
 
   
 
-        target_rd_seq.start(p_sequencer.i3c_target_seqr_h); 
+    i3c_target_writeOperationWith8bitsData_seq target_wr_seq;  
 
-      end 
-
-    join_none; 
+    i3c_target_readOperationWith8bitsData_seq  target_rd_seq;  
 
   
 
+    fork  
+
+      forever begin  
+
+        target_wr_seq =  
+
+        i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_wr_seq");  
+
   
 
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'd2); 
+        target_wr_seq.start(topEnvConfigHandle.i3c_target_seqr_h);  
 
-    p_sequencer.regmodel.ctrl_inst.ccc.set(`CCC_ENTDAA); 
-
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1); 
+      end  
 
   
 
-    p_sequencer.regmodel.ctrl_inst.update(status); 
+      forever begin  
+
+        target_rd_seq =  
+
+        i3c_target_readOperationWith8bitsData_seq::type_id::create("target_rd_seq");  
+
+  
+
+        target_rd_seq.start(topEnvConfigHandle.i3c_target_seqr_h);  
+
+      end  
+
+    join_none;  
 
   
 
   
 
-    daa_done = 0; 
+  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.cmd_type.set(2'd2);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.ccc.set(`CCC_ENTDAA);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.start.set(1'b1);  
 
   
 
-    while(!daa_done) begin 
-
-      p_sequencer.regmodel.status_inst.read(status, rdata); 
-
-      daa_done = rdata[1]; 
-
-      @(posedge p_sequencer.vif.clk); 
-
-    end 
-
-  
-
-  
-
-    p_sequencer.regmodel.dynaddr_inst.read(status, rdata); 
-
-    dyn_addr = rdata[6:0]; 
-
-  
-
-    if(dyn_addr != 0) 
-
-      `uvm_info("DAA_CHECK", 
-
-        $sformatf("Dynamic address assigned = %0h", dyn_addr), 
-
-        UVM_MEDIUM) 
-
-    else 
-
-      `uvm_error("DAA_CHECK","Dynamic address assignment failed") 
+    topEnvConfigHandle.regmodel.ctrl_inst.update(status);  
 
   
 
   
 
-    p_sequencer.regmodel.wdatab_inst.write(status, write_data); 
+    daa_done = 0;  
+
+  
+
+    while(!daa_done) begin  
+
+      topEnvConfigHandle.regmodel.status_inst.read(status, rdata);  
+
+      daa_done = rdata[1];  
+
+      @(posedge topEnvConfigHandle.vif.clk);  
+
+    end  
 
   
 
   
 
-    p_sequencer.regmodel.ctrl_inst.address.set(dyn_addr); 
+    topEnvConfigHandle.regmodel.dynaddr_inst.read(status, rdata);  
 
-    p_sequencer.regmodel.ctrl_inst.length.set(8'd1); 
-
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b0); 
-
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'd0); 
-
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1); 
+    dyn_addr = rdata[6:0];  
 
   
 
-    p_sequencer.regmodel.ctrl_inst.update(status); 
+    if(dyn_addr != 0)  
 
-  
+      `uvm_info("DAA_CHECK",  
 
-  
+        $sformatf("Dynamic address assigned = %0h", dyn_addr),  
 
-    sdr_done = 0; 
+        UVM_MEDIUM)  
 
-  
+    else  
 
-    while(!sdr_done) begin 
-
-      p_sequencer.regmodel.status_inst.read(status, rdata); 
-
-      sdr_done = rdata[0]; 
-
-      @(posedge p_sequencer.vif.clk); 
-
-    end 
+      `uvm_error("DAA_CHECK","Dynamic address assignment failed")  
 
   
 
   
 
-    p_sequencer.regmodel.ctrl_inst.address.set(dyn_addr); 
+    
 
-    p_sequencer.regmodel.ctrl_inst.length.set(8'd1); 
-
-    p_sequencer.regmodel.ctrl_inst.direction.set(1'b1); 
-
-    p_sequencer.regmodel.ctrl_inst.cmd_type.set(2'd0); 
-
-    p_sequencer.regmodel.ctrl_inst.start.set(1'b1); 
+    topEnvConfigHandle.regmodel.wdatab_inst.write(status, write_data);  
 
   
 
-    p_sequencer.regmodel.ctrl_inst.update(status); 
+    topEnvConfigHandle.regmodel.ctrl_inst.address.set(dyn_addr);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.length.set(8'd1);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.direction.set(1'b0);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.cmd_type.set(2'd0);  
+
+    topEnvConfigHandle.regmodel.ctrl_inst.start.set(1'b1);  
 
   
 
-  
-
-    sdr_done = 0; 
-
-  
-
-    while(!sdr_done) begin 
-
-      p_sequencer.regmodel.status_inst.read(status, rdata); 
-
-      sdr_done = rdata[0]; 
-
-      @(posedge p_sequencer.vif.clk); 
-
-    end 
+    topEnvConfigHandle.regmodel.ctrl_inst.update(status);  
 
   
 
   
 
-    p_sequencer.regmodel.rdatab_inst.read(status, rdata); 
+    sdr_done = 0;  
 
-    read_data = rdata; 
+  
+
+    while(!sdr_done) begin  
+
+      topEnvConfigHandle.regmodel.status_inst.read(status, rdata);  
+
+      sdr_done = rdata[0];  
+
+      @(posedge topEnvConfigHandle.vif.clk);  
+
+    end  
 
   
 
   
 
-    if(read_data == write_data) 
+    topEnvConfigHandle.regmodel.ctrl_inst.address.set(dyn_addr);  
 
-      `uvm_info("SDR_DATA_CHECK", 
+    topEnvConfigHandle.regmodel.ctrl_inst.length.set(8'd1);  
 
-        $sformatf("PASS: write %0h read %0h",write_data,read_data), 
+    topEnvConfigHandle.regmodel.ctrl_inst.direction.set(1'b1);  
 
-        UVM_MEDIUM) 
+    topEnvConfigHandle.regmodel.ctrl_inst.cmd_type.set(2'd0);  
 
-    else 
-
-      `uvm_error("SDR_DATA_CHECK", 
-
-        $sformatf("FAIL: write %0h read %0h",write_data,read_data)) 
+    topEnvConfigHandle.regmodel.ctrl_inst.start.set(1'b1);  
 
   
 
-  endtask 
+    topEnvConfigHandle.regmodel.ctrl_inst.update(status);  
+
+  
+
+  
+
+    sdr_done = 0;  
+
+  
+
+    while(!sdr_done) begin  
+
+      topEnvConfigHandle.regmodel.status_inst.read(status, rdata);  
+
+      sdr_done = rdata[0];  
+
+      @(posedge topEnvConfigHandle.vif.clk);  
+
+    end  
+
+  
+
+  
+
+    topEnvConfigHandle.regmodel.rdatab_inst.read(status, rdata);  
+
+    read_data = rdata;  
+
+  
+
+  
+
+    if(read_data == write_data)  
+
+      `uvm_info("SDR_DATA_CHECK",  
+
+        $sformatf("PASS: write %0h read %0h",write_data,read_data),  
+
+        UVM_MEDIUM)  
+
+    else  
+
+      `uvm_error("SDR_DATA_CHECK",  
+
+        $sformatf("FAIL: write %0h read %0h",write_data,read_data))  
+
+  
+
+  endtask  
 
   
 
