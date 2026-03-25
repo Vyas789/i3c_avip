@@ -1,5 +1,5 @@
 class i3c_ral_reg_block extends uvm_reg_block;
-  `uvm_object_utils(ral_i3c_reg_block)
+  `uvm_object_utils(i3c_ral_reg_block)
 
   rand i3c_ctrl_reg     ctrl_inst;
   rand i3c_wdatab_reg   wdatab_inst;

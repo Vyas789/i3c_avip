@@ -31,19 +31,22 @@ package i3c_env_pkg;
   import uvm_pkg::*;
  
   import i3c_globals_pkg::*;
- 
+	
+   import i3c_controller_pkg::*;
+   import i3c_target_pkg::*;
+
 //added apb_master pkg
+  //import apb_global_pkg::*; 
   import apb_master_pkg::*;
-  import i3c_target_pkg::*;
- 
+  `include "i3c_ral_reg.sv"
+  `include "i3c_ral_reg_block.sv" 
   `include "i3c_env_config.sv"
-  `include "top_virtual_sequencer.sv"
+  `include "i3c_virtual_sequencer.sv"
   `include "i3c_scoreboard.sv" 
   `include "i3c_scoreboard_expactedTargetAddressNACK.sv"
-  `include "i3c_env.sv"
+  `include "apb_env_config.sv"  
+`include "i3c_env.sv"
  
-  //added apb_config
-`include "apb_env_config.sv"
  
 endpackage : i3c_env_pkg
  

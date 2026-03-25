@@ -12,6 +12,8 @@ package i3c_virtual_seq_pkg;
   import i3c_target_seq_pkg::*;
   import i3c_env_pkg::*;
 
+//  `include "i3c_virtual_sequencer.sv"  
+
  `include "i3c_virtual_base_seq.sv"
  `include "i3c_virtual_writeOperationWith8bitsData_seq.sv"
  `include "i3c_virtual_readOperationWith8bitsData_seq.sv"

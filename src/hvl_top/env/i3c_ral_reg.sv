@@ -10,6 +10,8 @@
 
 class i3c_ctrl_reg extends uvm_reg;
 
+`uvm_object_utils(i3c_ctrl_reg)
+
   rand uvm_reg_field start;
        uvm_reg_field reserved;
   rand uvm_reg_field cmd_type;
@@ -52,6 +54,8 @@ endclass
 
 class i3c_wdatab_reg extends uvm_reg;
 
+`uvm_object_utils(i3c_wdatab_reg)
+
   rand uvm_reg_field tx_data;
 
   function new(string name = "i3c_wdatab_reg");
@@ -67,6 +71,7 @@ endclass
 
 //rdatab_reg
 class i3c_rdatab_reg extends uvm_reg;
+ `uvm_object_utils(i3c_rdatab_reg) 
 
   uvm_reg_field rx_data;
 

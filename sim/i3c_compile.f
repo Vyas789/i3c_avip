@@ -15,6 +15,10 @@
 ../../src/hvl_top/target/i3c_target_pkg.sv
 ../../src/hvl_top/controller/controller_sequences/i3c_controller_seq_pkg.sv
 ../../src/hvl_top/target/target_sequences/i3c_target_seq_pkg.sv
+
+../../src/globals/apb_global_pkg.sv
+../../src/hvl_top/apb_master/apb_master_pkg.sv
+
 ../../src/hvl_top/env/i3c_env_pkg.sv
 ../../src/hvl_top/test/virtual_sequences/i3c_virtual_seq_pkg.sv
 ../../src/hvl_top/test/i3c_test_pkg.sv
