@@ -10,6 +10,7 @@ package i3c_virtual_seq_pkg;
   import i3c_target_pkg::*;
   import i3c_controller_seq_pkg::*;
   import i3c_target_seq_pkg::*;
+  import apb_master_pkg::*;
   import i3c_env_pkg::*;
 
 //  `include "i3c_virtual_sequencer.sv"  

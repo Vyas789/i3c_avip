@@ -33,7 +33,7 @@ task i3c_writeOperationWith8bitsData_startStopCombination_test::run_phase(uvm_ph
 
   phase.raise_objection(this);
 
-  i3c_virtual_writeOperationWith8bitsData_startStopCombination_seq_h.start(i3c_env_h.i3c_virtual_seqr_h); 
+  i3c_virtual_writeOperationWith8bitsData_startStopCombination_seq_h.start(i3c_env_h.top_virtual_seqr_h); 
   #20;
 
   phase.drop_objection(this);

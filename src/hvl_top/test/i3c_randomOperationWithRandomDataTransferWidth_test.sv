@@ -33,7 +33,7 @@ task i3c_randomOperationWithRandomDataTransferWidth_test::run_phase(uvm_phase ph
 
   phase.raise_objection(this);
 
-  i3c_virtual_randomOperationWithRandomDataTransferWidth_seq_h.start(i3c_env_h.i3c_virtual_seqr_h); 
+  i3c_virtual_randomOperationWithRandomDataTransferWidth_seq_h.start(i3c_env_h.top_virtual_seqr_h); 
   #20;
 
   phase.drop_objection(this);

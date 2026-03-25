@@ -7,17 +7,23 @@
 +incdir+../../src/hvl_top/env
 +incdir+../../src/hvl_top/target/
 +incdir+../../src/hvl_top/target/target_sequences/
+
++incdir+../../src/hvl_top/apb_master/
++incdir+../../src/hvl_top/apb_master/master_sequences/
+
 +incdir+../../src/hvl_top/test
 +incdir+../../src/hdl_top/target_agent_bfm
 +incdir+../../src/hdl_top/i3c_interface
 ../../src/globals/i3c_globals_pkg.sv
+../../src/globals/apb_global_pkg.sv
+
 ../../src/hvl_top/controller/i3c_controller_pkg.sv
 ../../src/hvl_top/target/i3c_target_pkg.sv
+../../src/hvl_top/apb_master/apb_master_pkg.sv
+
 ../../src/hvl_top/controller/controller_sequences/i3c_controller_seq_pkg.sv
 ../../src/hvl_top/target/target_sequences/i3c_target_seq_pkg.sv
-
-../../src/globals/apb_global_pkg.sv
-../../src/hvl_top/apb_master/apb_master_pkg.sv
+../../src/hvl_top/apb_master/master_sequences/apb_master_seq_pkg.sv
 
 ../../src/hvl_top/env/i3c_env_pkg.sv
 ../../src/hvl_top/test/virtual_sequences/i3c_virtual_seq_pkg.sv

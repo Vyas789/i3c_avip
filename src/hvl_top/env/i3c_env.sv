@@ -116,7 +116,7 @@ if(!uvm_config_db #(apb_env_config)::get(this,"","apb_env_config",apb_env_cfg_h)
    apb_master_agent_h = apb_master_agent::type_id::create("apb_master_agent_h",this);
 
    // Create I3C Targets
-  i3c_target_agent_h = new[i3c_env_cfg_h.no_of_i3c_targets];
+  i3c_target_agent_h = new[i3c_env_cfg_h.no_of_targets];
 
   foreach(i3c_target_agent_h[i]) begin
     i3c_target_agent_h[i] =i3c_target_agent::type_id::create(
@@ -162,7 +162,4 @@ regmodel.default_map.set_auto_predict(0);
 apb_master_agent_h.apb_master_mon_proxy_h.apb_master_analysis_port.connect(topPredictor.bus_in);
 endfunction
 
-endclass
- 
-
-
+`endif

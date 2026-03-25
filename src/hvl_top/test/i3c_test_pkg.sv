@@ -10,7 +10,7 @@ package i3c_test_pkg;
   import apb_global_pkg::*;
   import i3c_globals_pkg::*;
  
-  //import i3c_controller_pkg::*;
+  import i3c_controller_pkg::*;
   import apb_master_pkg::*;
   import i3c_target_pkg::*;
  
