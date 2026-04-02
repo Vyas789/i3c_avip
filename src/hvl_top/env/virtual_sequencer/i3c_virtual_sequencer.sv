@@ -63,6 +63,7 @@ class top_virtual_sequencer extends uvm_sequencer #(uvm_sequence_item);
   // I3C target sequencer handle
   i3c_target_sequencer  i3c_target_seqr_h;
  
+i3c_controller_sequencer i3c_controller_seqr_h;
 
   extern function new(string name = "top_virtual_sequencer",
                       uvm_component parent);

@@ -185,6 +185,9 @@ end
 //---------------------------------
 apb_if apb_intf(.pclk(pclk), .preset_n(preset_n));
 
+
+
+
 //---------------------------------
 // I3C Target Interface
 //---------------------------------
@@ -246,6 +249,10 @@ I3C_TOP dut(
 //---------------------------------
 assign I3C_SDA = sda_oe ? sda_o : 1'bz;
 assign I3C_SCL = scl_o;
+
+//added apb_master agent bfm
+apb_master_agent_bfm apb_master_agent_bfm_h(apb_intf);
+i3c_controller_agent_bfm i3c_controller_agent_bfm_h(intf_target);
 
 //---------------------------------
 // Target AVIP

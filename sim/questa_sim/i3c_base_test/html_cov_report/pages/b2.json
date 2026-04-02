@@ -1,0 +1,9 @@
+var g_data = {
+b22:[{dummy:0},
+{anchor:'cvg7634',items:[{z:'assign I3C_SDA = sda_oe ? sda_o : 1\'bz;',f:'../../src/hdl_top/hdl_top.sv',l:'250',c:'Y',p:'50.00'}
+,{cr:'m',t:'I',z:'assign I3C_SDA = sda_oe ? sda_o : 1\'bz;',f:'../../src/hdl_top/hdl_top.sv',l:'250',h:'0',c:'r'}
+,{cr:'c',t:'E',z:'assign I3C_SDA = sda_oe ? sda_o : 1\'bz;',f:'../../src/hdl_top/hdl_top.sv',l:'250',h:'1',c:'g'}
+]}],
+dummyEnd:0
+};
+processBranchesData(g_data);

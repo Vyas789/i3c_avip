@@ -126,7 +126,7 @@ i3c_reg_interface x1(
   .cmd_addr       (cmd_addr),
   .cmd_ccc        (cmd_ccc),
   .cmd_len        (cmd_len),
-  .cmd_dir        (cmd_dir),
+  .cmd_dir        (cmd_dir)
 );
 // Instantiate CMD block
 i3c_cmd_ctrl x2(

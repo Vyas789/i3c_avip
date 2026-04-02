@@ -6,6 +6,8 @@ class i3c_base_test extends uvm_test;
 
   i3c_env i3c_env_h;
   i3c_env_config i3c_env_cfg_h;
+  apb_env_config apb_env_cfg_h;
+  apb_master_agent_config apb_master_agent_cfg_h;  
 
   extern function new(string name = "i3c_base_test", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
@@ -24,7 +26,20 @@ function void i3c_base_test::build_phase(uvm_phase phase);
   super.build_phase(phase);
   i3c_env_cfg_h = i3c_env_config::type_id::create("i3c_env_cfg_h");
   i3c_env_h = i3c_env::type_id::create("i3c_env_h",this);
+
+apb_env_cfg_h = apb_env_config::type_id::create("apb_env_cfg_h");
+//  apb_env_cfg_h.has_virtual_seqr = 1;  // set fields as needed
+  uvm_config_db #(apb_env_config)::set(this, "*", "apb_env_config", apb_env_cfg_h);
+
+apb_master_agent_cfg_h = apb_master_agent_config::type_id::create("apb_master_agent_cfg_h");
+apb_master_agent_cfg_h.no_of_slaves = NO_OF_SLAVES;  // already 1 in apb_global_pkg
+apb_master_agent_cfg_h.has_coverage = 1;
+apb_master_agent_cfg_h.master_min_addr_range(0, 32'h0000_0000);
+apb_master_agent_cfg_h.master_max_addr_range(0, 32'h0000_007F);
+uvm_config_db #(apb_master_agent_config)::set(this, "*", "apb_master_agent_config", apb_master_agent_cfg_h);
+
   setup_env_cfg();
+
 endfunction : build_phase
 
 
