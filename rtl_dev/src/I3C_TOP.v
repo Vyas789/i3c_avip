@@ -121,21 +121,13 @@ i3c_reg_interface x1(
   .Tx_wdata       (tx_wdata),//Write to Tx_fifo
   .Rx_rd_en       (rx_rd_en),
   .Rx_rdata       (rx_rdata),//Read from Rx_fifo ...slave
-  .SDR_DONE       (sdr_done),
-  .DAA_DONE       (daa_done),
-  .SDR_BUSY       (sdr_busy),
-  .DAA_BUSY       (daa_busy),
-  .SDR_ERROR      (sdr_error),
-  .DAA_ERROR      (daa_error),
-  .daa_dyn_addr   (dyn_addr),
   .cmd_start      (cmd_start), 
   .cmd_type       (cmd_type),
   .cmd_addr       (cmd_addr),
   .cmd_ccc        (cmd_ccc),
   .cmd_len        (cmd_len),
-  .cmd_dir        (cmd_dir) 
+  .cmd_dir        (cmd_dir),
 );
-
 // Instantiate CMD block
 i3c_cmd_ctrl x2(
   .clk            (clk),
