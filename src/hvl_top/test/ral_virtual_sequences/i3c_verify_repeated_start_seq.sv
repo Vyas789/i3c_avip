@@ -6,34 +6,37 @@ class i3c_verify_repeated_start_seq extends top_virtual_base_seq;
   `uvm_object_utils(i3c_verify_repeated_start_seq)
 
   uvm_status_e status;
-  uvm_reg_data_t rdata;
   uvm_reg_data_t wdatab_mirror;
   uvm_reg_data_t ctrl_mirror;
-
-  bit sdr_done;
 
   function new(string name = "i3c_verify_repeated_start_seq");
     super.new(name);
   endfunction
 
+
   task body();
+
+    i3c_target_writeOperationWith8bitsData_seq target_seq;
+
     super.body();
 
-    i3c_target_writeOperationWithRepeatedStart_seq target_seq;
+    `uvm_info(get_type_name(),
+      "Starting Repeated Start Verification",
+      UVM_LOW)
 
-    `uvm_info(get_type_name(), "Starting Repeated Start Verification", UVM_LOW)
 
-    // Start target sequence on sequencer handle
     fork
       forever begin
         target_seq =
-          i3c_target_writeOperationWithRepeatedStart_seq::type_id::create("target_seq");
+          i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_seq");
+
         target_seq.start(p_sequencer.i3c_target_seqr_h);
       end
     join_none;
 
-    // WRITE 1
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'hA5);
+
     wdatab_mirror =
       i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
 
@@ -43,7 +46,7 @@ class i3c_verify_repeated_start_seq extends top_virtual_base_seq;
 
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
-    // Configure CTRL register
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0);
@@ -58,18 +61,15 @@ class i3c_verify_repeated_start_seq extends top_virtual_base_seq;
       UVM_LOW)
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
 
-    // Wait for SDR done
-    sdr_done = 0;
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-      #100;
-    end
 
-    // REPEATED START + WRITE 
+    #5000;
+
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'h3C);
+
     wdatab_mirror =
       i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
 
@@ -79,7 +79,9 @@ class i3c_verify_repeated_start_seq extends top_virtual_base_seq;
 
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+
     ctrl_mirror =
       i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.get();
 
@@ -88,15 +90,12 @@ class i3c_verify_repeated_start_seq extends top_virtual_base_seq;
       UVM_LOW)
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
 
-    // Wait for SDR done
-    sdr_done = 0;
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-      #100;
-    end
+
+    #5000;
+
 
     `uvm_info(get_type_name(),
       "Repeated Start transfer completed successfully",

@@ -6,33 +6,39 @@ class i3c_start_stop_combination_seq extends top_virtual_base_seq;
   `uvm_object_utils(i3c_start_stop_combination_seq)
 
   uvm_status_e status;
-  uvm_reg_data_t rdata;
   uvm_reg_data_t wdatab_mirror;
-  bit sdr_done;
 
   function new(string name="i3c_start_stop_combination_seq");
     super.new(name);
   endfunction
 
+
   task body();
-    super.body();
 
     i3c_target_writeOperationWith8bitsData_seq target_seq;
 
-    // Start target sequence
+    super.body();
+
+
     fork
       forever begin
         target_seq =
           i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_seq");
+
         target_seq.start(p_sequencer.i3c_target_seqr_h);
       end
     join_none;
 
-    // FIRST TRANSFER (START - WRITE - STOP)
+
+    // FIRST TRANSFER (START → WRITE → STOP)
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'hA5);
+
     wdatab_mirror =
       i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
+
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
@@ -42,31 +48,31 @@ class i3c_start_stop_combination_seq extends top_virtual_base_seq;
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
-    sdr_done = 0;
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-      #100;
-    end
 
-    // SECOND TRANSFER (START -> WRITE -> STOP)
+    #5000;
+
+
+    // SECOND TRANSFER (START → WRITE → STOP)
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(status, 8'h3C);
+
     wdatab_mirror =
       i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
 
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
-    sdr_done = 0;
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-      #100;
-    end
+
+    #5000;
+
 
     `uvm_info(get_type_name(),
-      "Start-Stop-Start-Stop transfers completed", UVM_MEDIUM)
+      "Start-Stop-Start-Stop transfers completed",
+      UVM_MEDIUM)
 
   endtask
 

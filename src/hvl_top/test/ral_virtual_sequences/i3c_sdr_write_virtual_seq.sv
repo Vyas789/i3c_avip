@@ -15,10 +15,27 @@ class i3c_sdr_write_virtual_seq extends top_virtual_base_seq;
 
 
   task body();
-    super.body();
 
     i3c_target_writeOperationWith8bitsData_seq target_seq_write;
 
+
+if(i3c_env_cfg_h == null)
+  `uvm_fatal("CFG_NULL",
+    "i3c_env_cfg_h is NULL inside virtual sequence")
+
+if(i3c_env_cfg_h.regBlockHandle == null)
+  `uvm_fatal("RAL_NULL",
+    "regBlockHandle is NULL inside virtual sequence")
+
+if(i3c_env_cfg_h.regBlockHandle.wdatab_inst == null)
+  `uvm_fatal("WDATAB_NULL",
+    "wdatab_inst is NULL inside virtual sequence")
+
+
+
+    super.body();
+	
+    
     `uvm_info(get_type_name(), "Starting SDR WRITE test", UVM_LOW)
 
 

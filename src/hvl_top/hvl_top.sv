@@ -17,7 +17,7 @@ module hvl_top;
  //-------------------------------------------------------
 
  initial begin
-  run_test("i3c_base_test");
+  run_test("i3cAllSeqTest");
  end
 
 endmodule : hvl_top

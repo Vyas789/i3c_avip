@@ -1,0 +1,481 @@
+# vsim -vopt work.hvl_top work.hdl_top -voptargs="+acc=npr" -sv_seed random -assertdebug "+UVM_TESTNAME=i3cAllSeqTest" "+UVM_VERBOSITY=UVM_MEDIUM" "+define+" -l i3cAllSeqTest/i3cAllSeqTest.log -sva -coverage -c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb; run -all; exit" -wlf i3cAllSeqTest/waveform.wlf 
+# Start time: 12:29:01 on Apr 08,2026
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_bit_engine(fast)".
+# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_daa_fsm(fast)".
+# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_sdr_fsm(fast)".
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(132): (vopt-2685) [TFMPC] - Too few port connections for 'x2'.  Expected 19, found 17.
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(132): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_ccc_is_read'.
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(132): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_is_ccc'.
+# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_scl_gen(fast)".
+# //  Questa Sim
+# //  Version 10.6c linux Jul 25 2017
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.apb_master_driver_bfm(fast)
+# Loading work.apb_master_monitor_bfm(fast)
+# Loading work.apb_global_pkg(fast)
+# Loading mtiUvm.uvm_pkg
+# Loading work.apb_master_pkg(fast)
+# Loading work.i3c_target_driver_bfm(fast)
+# Loading work.i3c_target_monitor_bfm(fast)
+# Loading work.i3c_globals_pkg(fast)
+# Loading work.i3c_target_pkg(fast)
+# Loading work.i3c_controller_driver_bfm(fast)
+# Loading work.i3c_controller_monitor_bfm(fast)
+# Loading work.i3c_controller_pkg(fast)
+# Loading work.i3c_env_pkg(fast)
+# Loading work.i3c_target_seq_pkg(fast)
+# Loading work.apb_master_seq_pkg(fast)
+# Loading work.i3c_ral_virtual_seq_pkg(fast)
+# Loading work.i3c_controller_seq_pkg(fast)
+# Loading work.i3c_virtual_seq_pkg(fast)
+# Loading work.i3c_test_pkg(fast)
+# Loading work.hvl_top(fast)
+# Loading work.hdl_top_sv_unit(fast)
+# Loading work.hdl_top(fast)
+# Loading work.apb_if_sv_unit(fast)
+# Loading work.apb_if(fast)
+# Loading work.i3c_if(fast)
+# Loading work.i3c_wrapper_sv_unit(fast)
+# Loading work.apb_i3c_wrapper(fast)
+# Loading work.I3C_TOP(fast)
+# Loading work.i3c_reg_interface(fast)
+# Loading work.i3c_cmd_ctrl(fast)
+# Loading work.i3c_Tx_FIFO(fast)
+# Loading work.i3c_Rx_FIFO(fast)
+# Loading work.i3c_sdr_fsm(fast)
+# Loading work.i3c_daa_fsm(fast)
+# Loading work.i3c_device_table(fast)
+# Loading work.i3c_bit_engine(fast)
+# Loading work.i3c_scl_gen(fast)
+# Loading work.apb_master_agent_bfm(fast)
+# Loading work.apb_master_driver_bfm_sv_unit(fast)
+# Loading work.apb_master_driver_bfm(fast)
+# Loading work.apb_master_monitor_bfm_sv_unit(fast)
+# Loading work.apb_master_monitor_bfm(fast)
+# Loading work.i3c_controller_agent_bfm(fast)
+# Loading work.i3c_controller_driver_bfm_sv_unit(fast)
+# Loading work.i3c_controller_driver_bfm(fast)
+# Loading work.i3c_controller_monitor_bfm_sv_unit(fast)
+# Loading work.i3c_controller_monitor_bfm(fast)
+# Loading work.i3c_target_agent_bfm(fast)
+# Loading work.i3c_target_driver_bfm_sv_unit(fast)
+# Loading work.i3c_target_driver_bfm(fast)
+# Loading work.i3c_target_monitor_bfm_sv_unit(fast)
+# Loading work.i3c_target_monitor_bfm(fast)
+# Loading mtiUvm.questa_uvm_pkg(fast)
+# ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/scl_o', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
+# ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/scl_oen', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
+# ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/sda_o', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
+# ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/sda_oen', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
+# Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
+# Sv_Seed = 1069467161
+# log -r /*
+#  add wave -r /*
+#  coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb
+#  run -all
+# ----------------------------------------------------------------
+# UVM-1.1d
+# (C) 2007-2013 Mentor Graphics Corporation
+# (C) 2007-2013 Cadence Design Systems, Inc.
+# (C) 2006-2013 Synopsys, Inc.
+# (C) 2011-2013 Cypress Semiconductor Corp.
+# ----------------------------------------------------------------
+# 
+#   ***********       IMPORTANT RELEASE NOTES         ************
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_NO_DEPRECATED undefined.
+#   See http://www.eda.org/svdb/view.php?id=3313 for more details.
+# 
+#   You are using a version of the UVM library that has been compiled
+#   with `UVM_OBJECT_MUST_HAVE_CONSTRUCTOR undefined.
+#   See http://www.eda.org/svdb/view.php?id=3770 for more details.
+# 
+#       (Specify +UVM_NO_RELNOTES to turn off this notice)
+# 
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(215) @ 0: reporter [Questa UVM] QUESTA_UVM-1.2.3
+# UVM_INFO verilog_src/questa_uvm_pkg-1.2/src/questa_uvm_pkg.sv(217) @ 0: reporter [Questa UVM]  questa_uvm::init(+struct)
+# UVM_INFO @ 0: reporter [RNTST] Running test i3cAllSeqTest...
+# HDL TOP
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_agent_bfm.sv(17) @ 0: reporter [apb master agent bfm] APB MASTER AGENT BFM
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(55) @ 0: reporter [APB_MASTER_DRIVER_BFM] APB_MASTER_DRIVER_BFM
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_monitor_bfm.sv(47) @ 0: reporter [APB_MASTER_MONITOR_BFM] APB MASTER MONITOR BFM
+# I3C_CONTROLLER_DRIVER_BFM
+# I3C_CONTROLLER_MONITOR_BFM
+# controller Agent BFM
+# I3C_TARGET_DRIVER_BFM
+# target Monitor BFM
+# DEBUG_MSHA :: drv_str = i3c_target_driver_bfm_0
+# DEBUG_MSHA :: mon_str = i3c_target_monitor_bfm_0
+# target Agent BFM
+# UVM_INFO ../../src/hvl_top/test/i3c_base_test.sv(67) @ 0: uvm_test_top [i3cAllSeqTest] i3c_controller_agent_cfg = 
+#  ----------------------------------------------------------------------------
+# Name                           Type                         Size  Value     
+# ----------------------------------------------------------------------------
+# i3c_controller_agent_cfg_h[0]  i3c_controller_agent_config  -     @526      
+#   isActive                     string                       10    UVM_ACTIVE
+#   no_of_targets                integral                     32    'd1       
+#   dataTransferDirection        string                       9     MSB_FIRST 
+#   primary_prescalar            integral                     3     'd1       
+#   secondary_prescalar          integral                     3     'd0       
+#   clockRateDividerValue        integral                     32    'd4       
+#   hasCoverage                  string                       4     TRUE      
+# ----------------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/i3c_base_test.sv(83) @ 0: uvm_test_top [i3cAllSeqTest] i3c_target_agent_cfg = 
+#  --------------------------------------------------------------------
+# Name                       Type                     Size  Value     
+# --------------------------------------------------------------------
+# i3c_target_agent_cfg_h[0]  i3c_target_agent_config  -     @531      
+#   isActive                 string                   10    UVM_ACTIVE
+#   dataTransferDirection    string                   9     MSB_FIRST 
+#   hasCoverage              string                   4     TRUE      
+#   targetAddress            integral                 7     'h68      
+# --------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/i3c_base_test.sv(87) @ 0: uvm_test_top [i3cAllSeqTest] i3c_env_cfg = 
+#  ----------------------------------------------------
+# Name                     Type            Size  Value
+# ----------------------------------------------------
+# i3c_env_cfg_h            i3c_env_config  -     @508 
+#   has_scoreboard         integral        1     1    
+#   has_virtual_sequencer  integral        1     1    
+#   no_of_controllers      integral        32    'd1  
+#   no_of_targets          integral        32    'd1  
+# ----------------------------------------------------
+# 
+# UVM_INFO @ 0: reporter [UVMTOP] UVM testbench topology:
+# ---------------------------------------------------------------------------------
+# Name                              Type                                Size  Value
+# ---------------------------------------------------------------------------------
+# uvm_test_top                      i3cAllSeqTest                       -     @477 
+#   i3c_env_h                       i3c_env                             -     @509 
+#     apb_master_agent_h            apb_master_agent                    -     @542 
+#       apb_master_cov_h            apb_master_coverage                 -     @861 
+#         analysis_imp              uvm_analysis_imp                    -     @868 
+#       apb_master_drv_proxy_h      apb_master_driver_proxy             -     @714 
+#         rsp_port                  uvm_analysis_port                   -     @729 
+#         seq_item_port             uvm_seq_item_pull_port              -     @721 
+#       apb_master_mon_proxy_h      apb_master_monitor_proxy            -     @846 
+#         apb_master_analysis_port  uvm_analysis_port                   -     @853 
+#       apb_master_seqr_h           apb_master_sequencer                -     @737 
+#         rsp_export                uvm_analysis_export                 -     @744 
+#         seq_item_export           uvm_seq_item_pull_imp               -     @838 
+#         arbitration_queue         array                               0     -    
+#         lock_queue                array                               0     -    
+#         num_last_reqs             integral                            32    'd1  
+#         num_last_rsps             integral                            32    'd1  
+#     i3c_target_agent_h[0]         i3c_target_agent                    -     @549 
+#       i3c_target_cov_h            i3c_target_coverage                 -     @1036
+#         analysis_imp              uvm_analysis_imp                    -     @1043
+#       i3c_target_drv_proxy_h      i3c_target_driver_proxy             -     @904 
+#         rsp_port                  uvm_analysis_port                   -     @919 
+#         seq_item_port             uvm_seq_item_pull_port              -     @911 
+#       i3c_target_mon_proxy_h      i3c_target_monitor_proxy            -     @885 
+#         target_analysis_port      uvm_analysis_port                   -     @892 
+#       i3c_target_seqr_h           i3c_target_sequencer                -     @927 
+#         rsp_export                uvm_analysis_export                 -     @934 
+#         seq_item_export           uvm_seq_item_pull_imp               -     @1028
+#         arbitration_queue         array                               0     -    
+#         lock_queue                array                               0     -    
+#         num_last_reqs             integral                            32    'd1  
+#         num_last_rsps             integral                            32    'd1  
+#     topPredictor                  uvm_reg_predictor #(apb_master_tx)  -     @666 
+#       bus_in                      uvm_analysis_imp                    -     @673 
+#       reg_ap                      uvm_analysis_port                   -     @681 
+#     top_virtual_seqr_h            top_virtual_sequencer               -     @556 
+#       rsp_export                  uvm_analysis_export                 -     @563 
+#       seq_item_export             uvm_seq_item_pull_imp               -     @657 
+#       arbitration_queue           array                               0     -    
+#       lock_queue                  array                               0     -    
+#       num_last_reqs               integral                            32    'd1  
+#       num_last_rsps               integral                            32    'd1  
+# ---------------------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/apb_master_ral_test.sv(96) @ 0: uvm_test_top [i3cAllSeqTest] Starting ONLY SDR WRITE sequence
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_monitor_proxy.sv(84) @ 0: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_mon_proxy_h [apb_master_monitor_proxy] Inside the master_monitor_proxy
+# UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(39) @ 0: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [i3c_sdr_write_virtual_seq] Starting SDR WRITE test
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(103) @ 90: reporter [DEBUG_MSHA] drive_apb_idle state = IDLE and state = 1
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 110: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
+# -----------------------------------------------------------------------------------------------------------------------------------
+# Name                           Type           Size  Value                                                                          
+# -----------------------------------------------------------------------------------------------------------------------------------
+# req                            i3c_target_tx  -     @1099                                                                          
+#   begin_time                   time           64    110                                                                            
+#   depth                        int            32    'd2                                                                            
+#   parent sequence (name)       string         16    target_seq_write                                                               
+#   parent sequence (full name)  string         79    uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_seqr_h.target_seq_write
+#   sequencer                    string         62    uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_seqr_h                 
+#   targetAddress                integral       7     'h0                                                                            
+#   targetAddressStatus          string         4     NACK                                                                           
+#   operation                    string         5     WRITE                                                                          
+#   writeDataStatus[0]           string         3     ACK                                                                            
+#   writeDataStatus[1]           string         3     ACK                                                                            
+#   writeDataStatus[2]           string         3     ACK                                                                            
+#   writeDataStatus[3]           string         3     ACK                                                                            
+#   writeDataStatus[4]           string         3     ACK                                                                            
+#   writeDataStatus[5]           string         3     ACK                                                                            
+#   writeDataStatus[6]           string         3     ACK                                                                            
+#   writeDataStatus[7]           string         3     ACK                                                                            
+#   writeDataStatus[8]           string         3     ACK                                                                            
+#   writeDataStatus[9]           string         3     ACK                                                                            
+#   writeDataStatus[10]          string         3     ACK                                                                            
+#   writeDataStatus[11]          string         3     ACK                                                                            
+#   writeDataStatus[12]          string         3     ACK                                                                            
+#   writeDataStatus[13]          string         3     ACK                                                                            
+#   writeDataStatus[14]          string         3     ACK                                                                            
+#   writeDataStatus[15]          string         3     ACK                                                                            
+#   writeDataStatus[16]          string         3     ACK                                                                            
+#   writeDataStatus[17]          string         3     ACK                                                                            
+#   writeDataStatus[18]          string         3     ACK                                                                            
+#   writeDataStatus[19]          string         3     ACK                                                                            
+#   writeDataStatus[20]          string         3     ACK                                                                            
+#   writeDataStatus[21]          string         3     ACK                                                                            
+#   writeDataStatus[22]          string         3     ACK                                                                            
+#   writeDataStatus[23]          string         3     ACK                                                                            
+#   writeDataStatus[24]          string         3     ACK                                                                            
+#   writeDataStatus[25]          string         3     ACK                                                                            
+#   writeDataStatus[26]          string         3     ACK                                                                            
+#   writeDataStatus[27]          string         3     ACK                                                                            
+#   writeDataStatus[28]          string         3     ACK                                                                            
+#   writeDataStatus[29]          string         3     ACK                                                                            
+#   writeDataStatus[30]          string         3     ACK                                                                            
+#   writeDataStatus[31]          string         3     ACK                                                                            
+#   writeDataStatus[32]          string         3     ACK                                                                            
+#   writeDataStatus[33]          string         3     ACK                                                                            
+#   writeDataStatus[34]          string         3     ACK                                                                            
+#   writeDataStatus[35]          string         3     ACK                                                                            
+#   writeDataStatus[36]          string         3     ACK                                                                            
+#   writeDataStatus[37]          string         3     ACK                                                                            
+#   writeDataStatus[38]          string         3     ACK                                                                            
+#   writeDataStatus[39]          string         3     ACK                                                                            
+#   writeDataStatus[40]          string         3     ACK                                                                            
+#   writeDataStatus[41]          string         3     ACK                                                                            
+#   writeDataStatus[42]          string         3     ACK                                                                            
+#   writeDataStatus[43]          string         3     ACK                                                                            
+#   writeDataStatus[44]          string         3     ACK                                                                            
+#   writeDataStatus[45]          string         3     ACK                                                                            
+#   writeDataStatus[46]          string         3     ACK                                                                            
+#   writeDataStatus[47]          string         3     ACK                                                                            
+#   writeDataStatus[48]          string         3     ACK                                                                            
+#   writeDataStatus[49]          string         3     ACK                                                                            
+#   writeDataStatus[50]          string         3     ACK                                                                            
+#   writeDataStatus[51]          string         3     ACK                                                                            
+#   writeDataStatus[52]          string         3     ACK                                                                            
+#   writeDataStatus[53]          string         3     ACK                                                                            
+#   writeDataStatus[54]          string         3     ACK                                                                            
+#   writeDataStatus[55]          string         3     ACK                                                                            
+#   writeDataStatus[56]          string         3     ACK                                                                            
+#   writeDataStatus[57]          string         3     ACK                                                                            
+#   writeDataStatus[58]          string         3     ACK                                                                            
+#   writeDataStatus[59]          string         3     ACK                                                                            
+#   writeDataStatus[60]          string         3     ACK                                                                            
+#   writeDataStatus[61]          string         3     ACK                                                                            
+#   writeDataStatus[62]          string         3     ACK                                                                            
+#   writeDataStatus[63]          string         3     ACK                                                                            
+#   writeDataStatus[64]          string         3     ACK                                                                            
+#   writeDataStatus[65]          string         3     ACK                                                                            
+#   writeDataStatus[66]          string         3     ACK                                                                            
+#   writeDataStatus[67]          string         3     ACK                                                                            
+#   writeDataStatus[68]          string         3     ACK                                                                            
+#   writeDataStatus[69]          string         3     ACK                                                                            
+#   writeDataStatus[70]          string         3     ACK                                                                            
+#   writeDataStatus[71]          string         3     ACK                                                                            
+#   writeDataStatus[72]          string         3     ACK                                                                            
+#   writeDataStatus[73]          string         3     ACK                                                                            
+#   writeDataStatus[74]          string         3     ACK                                                                            
+#   writeDataStatus[75]          string         3     ACK                                                                            
+#   writeDataStatus[76]          string         3     ACK                                                                            
+#   writeDataStatus[77]          string         3     ACK                                                                            
+#   writeDataStatus[78]          string         3     ACK                                                                            
+#   writeDataStatus[79]          string         3     ACK                                                                            
+#   writeDataStatus[80]          string         3     ACK                                                                            
+#   writeDataStatus[81]          string         3     ACK                                                                            
+#   writeDataStatus[82]          string         3     ACK                                                                            
+#   writeDataStatus[83]          string         3     ACK                                                                            
+#   writeDataStatus[84]          string         3     ACK                                                                            
+#   writeDataStatus[85]          string         3     ACK                                                                            
+#   writeDataStatus[86]          string         3     ACK                                                                            
+#   writeDataStatus[87]          string         3     ACK                                                                            
+#   writeDataStatus[88]          string         3     ACK                                                                            
+#   writeDataStatus[89]          string         3     ACK                                                                            
+#   writeDataStatus[90]          string         3     ACK                                                                            
+#   writeDataStatus[91]          string         3     ACK                                                                            
+#   writeDataStatus[92]          string         3     ACK                                                                            
+#   writeDataStatus[93]          string         3     ACK                                                                            
+#   writeDataStatus[94]          string         3     ACK                                                                            
+#   writeDataStatus[95]          string         3     ACK                                                                            
+#   writeDataStatus[96]          string         3     ACK                                                                            
+#   writeDataStatus[97]          string         3     ACK                                                                            
+#   writeDataStatus[98]          string         3     ACK                                                                            
+#   writeDataStatus[99]          string         3     ACK                                                                            
+#   writeDataStatus[100]         string         3     ACK                                                                            
+#   writeDataStatus[101]         string         3     ACK                                                                            
+#   writeDataStatus[102]         string         3     ACK                                                                            
+#   writeDataStatus[103]         string         3     ACK                                                                            
+#   writeDataStatus[104]         string         3     ACK                                                                            
+#   writeDataStatus[105]         string         3     ACK                                                                            
+#   writeDataStatus[106]         string         3     ACK                                                                            
+#   writeDataStatus[107]         string         3     ACK                                                                            
+#   writeDataStatus[108]         string         3     ACK                                                                            
+#   writeDataStatus[109]         string         3     ACK                                                                            
+#   writeDataStatus[110]         string         3     ACK                                                                            
+#   writeDataStatus[111]         string         3     ACK                                                                            
+#   writeDataStatus[112]         string         3     ACK                                                                            
+#   writeDataStatus[113]         string         3     ACK                                                                            
+#   writeDataStatus[114]         string         3     ACK                                                                            
+#   writeDataStatus[115]         string         3     ACK                                                                            
+#   writeDataStatus[116]         string         3     ACK                                                                            
+#   writeDataStatus[117]         string         3     ACK                                                                            
+#   writeDataStatus[118]         string         3     ACK                                                                            
+#   writeDataStatus[119]         string         3     ACK                                                                            
+#   writeDataStatus[120]         string         3     ACK                                                                            
+#   writeDataStatus[121]         string         3     ACK                                                                            
+#   writeDataStatus[122]         string         3     ACK                                                                            
+#   writeDataStatus[123]         string         3     ACK                                                                            
+#   writeDataStatus[124]         string         3     ACK                                                                            
+#   writeDataStatus[125]         string         3     ACK                                                                            
+#   writeDataStatus[126]         string         3     ACK                                                                            
+#   writeDataStatus[127]         string         3     ACK                                                                            
+# -----------------------------------------------------------------------------------------------------------------------------------
+# UVM_INFO ../../src/hvl_top/target//i3c_target_driver_proxy.sv(56) @ 110: uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_drv_proxy_h [DEBUG_MSHA] CFG :: i3c_transfer_cfg_s = --------------------------------------------------------------------
+# Name                       Type                     Size  Value     
+# --------------------------------------------------------------------
+# i3c_target_agent_cfg_h[0]  i3c_target_agent_config  -     @531      
+#   isActive                 string                   10    UVM_ACTIVE
+#   dataTransferDirection    string                   9     MSB_FIRST 
+#   hasCoverage              string                   4     TRUE      
+#   targetAddress            integral                 7     'h68      
+# --------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/target//i3c_target_driver_proxy.sv(58) @ 110: uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_drv_proxy_h [DEBUG_MSHA] CFG :: struct_cfg = '{dataTransferDirection:MSB_FIRST, operation:0, clockRateDividerValue:0, targetAddress:104, defaultReadData:255}
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 170: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
+#  ---------------------------------------------------------------------
+# Name                          Type           Size  Value             
+# ---------------------------------------------------------------------
+# apb_master_tx                 apb_master_tx  -     @1090             
+#   pselx                       string         7     SLAVE_0           
+#   paddr                       integral       32    'h30              
+#   pwrite                      string         5     WRITE             
+#   pwdata                      integral       32    'ha5              
+#   transfer_size               string         0     ""                
+#   pstrb                       integral       4     'b1111            
+#   pprot                       string         18    NORMAL_SECURE_DATA
+#   prdata                      integral       32    'h0               
+#   pslverr                     string         8     NO_ERROR          
+#   no_of_wait_states_detected  integral       32    'd1               
+# ---------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(63) @ 170: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [WDATAB_DEBUG] WDATAB mirrored value = 0
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 190: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 250: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
+#  ---------------------------------------------------------------------
+# Name                          Type           Size  Value             
+# ---------------------------------------------------------------------
+# apb_master_tx                 apb_master_tx  -     @1193             
+#   pselx                       string         7     SLAVE_0           
+#   paddr                       integral       32    'h30              
+#   pwrite                      string         4     READ              
+#   pwdata                      integral       32    'h0               
+#   transfer_size               string         0     ""                
+#   pstrb                       integral       4     'b0               
+#   pprot                       string         18    NORMAL_SECURE_DATA
+#   prdata                      integral       32    'h0               
+#   pslverr                     string         8     NO_ERROR          
+#   no_of_wait_states_detected  integral       32    'd1               
+# ---------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(80) @ 250: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [CTRL_DEBUG] CTRL value before update = 800000e8
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 270: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 330: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
+#  ---------------------------------------------------------------------
+# Name                          Type           Size  Value             
+# ---------------------------------------------------------------------
+# apb_master_tx                 apb_master_tx  -     @1209             
+#   pselx                       string         7     SLAVE_0           
+#   paddr                       integral       32    'hc               
+#   pwrite                      string         5     WRITE             
+#   pwdata                      integral       32    'h800000e8        
+#   transfer_size               string         0     ""                
+#   pstrb                       integral       4     'b1111            
+#   pprot                       string         18    NORMAL_SECURE_DATA
+#   prdata                      integral       32    'h0               
+#   pslverr                     string         8     NO_ERROR          
+#   no_of_wait_states_detected  integral       32    'd1               
+# ---------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(88) @ 330: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [CTRL_DEBUG] CTRL mirrored value after update = 0
+# UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 350: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 410: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
+#  ---------------------------------------------------------------------
+# Name                          Type           Size  Value             
+# ---------------------------------------------------------------------
+# apb_master_tx                 apb_master_tx  -     @1229             
+#   pselx                       string         7     SLAVE_0           
+#   paddr                       integral       32    'hc               
+#   pwrite                      string         4     READ              
+#   pwdata                      integral       32    'h0               
+#   transfer_size               string         0     ""                
+#   pstrb                       integral       4     'b0               
+#   pprot                       string         18    NORMAL_SECURE_DATA
+#   prdata                      integral       32    'h0               
+#   pslverr                     string         8     NO_ERROR          
+#   no_of_wait_states_detected  integral       32    'd1               
+# ---------------------------------------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(93) @ 410: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [i3c_sdr_write_virtual_seq] SDR WRITE issued and registers verified
+# UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1268) @ 3410: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO ../../src/hvl_top/apb_master//apb_master_coverage.sv(121) @ 3410: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_cov_h [apb_master_coverage] APB Master Agent Coverage = 26.04 %
+# 
+# --------------------------------------
+# target COVERAGE
+# --------------------------------------
+# 
+# UVM_INFO ../../src/hvl_top/target//i3c_target_coverage.sv(99) @ 3410: uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_cov_h [i3c_target_coverage] target Agent Coverage = 0.00 %
+# 
+# --- UVM Report Summary ---
+# 
+# ** Report counts by severity
+# UVM_INFO :   31
+# UVM_WARNING :    0
+# UVM_ERROR :    0
+# UVM_FATAL :    0
+# ** Report counts by id
+# [APB_MASTER_DRIVER_BFM]     1
+# [APB_MASTER_MONITOR_BFM]     1
+# [CTRL_DEBUG]     2
+# [DEBUG_MSHA]     7
+# [Questa UVM]     2
+# [RNTST]     1
+# [TEST_DONE]     1
+# [UVMTOP]     1
+# [WDATAB_DEBUG]     1
+# [apb master agent bfm]     1
+# [apb_master_coverage]     1
+# [apb_master_driver_proxy]     4
+# [apb_master_monitor_proxy]     1
+# [i3cAllSeqTest]     4
+# [i3c_sdr_write_virtual_seq]     2
+# [i3c_target_coverage]     1
+# ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
+#    Time: 3410 ns  Iteration: 53  Instance: /hvl_top
+# Saving coverage database on exit...
+# End time: 12:32:12 on Apr 08,2026, Elapsed time: 0:03:11
+# Errors: 0, Warnings: 7

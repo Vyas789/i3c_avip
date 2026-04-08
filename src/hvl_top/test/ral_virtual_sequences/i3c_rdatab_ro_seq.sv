@@ -14,11 +14,12 @@ class i3c_rdatab_ro_seq extends top_virtual_base_seq;
 
 
   task body();
-    super.body();
 
     i3c_target_writeOperationWith8bitsData_seq target_seq_write;
 
-    `uvm_info(get_type_name(), "Starting RDATAB RO test", UVM_LOW)
+    super.body();
+    
+`uvm_info(get_type_name(), "Starting RDATAB RO test", UVM_LOW)
 
 
     // Start target

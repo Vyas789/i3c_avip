@@ -19,8 +19,11 @@ package i3c_test_pkg;
   import apb_master_seq_pkg::*;  // add this equence in the apb master folder
   import i3c_target_seq_pkg::*;
   import i3c_virtual_seq_pkg::*;
+  import i3c_ral_virtual_seq_pkg::*;
 
  `include "i3c_base_test.sv"
+ `include "apb_master_ral_test.sv"
+
  `include "i3c_writeOperationWith8bitsData_test.sv"
  `include "i3c_readOperationWith8bitsData_test.sv"
  `include "i3c_writeOperationWith16bitsData_test.sv"

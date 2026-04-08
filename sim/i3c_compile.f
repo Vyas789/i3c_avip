@@ -4,6 +4,7 @@
 +incdir+../../src/hdl_top/controller_agent_bfm/ 
 +incdir+../../src/hvl_top/env/virtual_sequencer/
 +incdir+../../src/hvl_top/test/virtual_sequences/
++incdir+../../src/hvl_top/test/ral_virtual_sequences/
 +incdir+../../src/hvl_top/env
 +incdir+../../src/hvl_top/target/
 +incdir+../../src/hvl_top/target/target_sequences/
@@ -29,6 +30,8 @@
 ../../src/hvl_top/apb_master/master_sequences/apb_master_seq_pkg.sv
 
 ../../src/hvl_top/env/i3c_env_pkg.sv
+../../src/hvl_top/test/ral_virtual_sequences/i3c_ral_virtual_seq_pkg.sv
+
 ../../src/hvl_top/test/virtual_sequences/i3c_virtual_seq_pkg.sv
 ../../src/hvl_top/test/i3c_test_pkg.sv
 ../../src/hdl_top/i3c_interface/i3c_if.sv

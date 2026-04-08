@@ -126,12 +126,16 @@ if(!uvm_config_db #(apb_env_config)::get(this,"","apb_env_config",apb_env_cfg_h)
 // Create Virtual Sequencer
   top_virtual_seqr_h =top_virtual_sequencer::type_id::create("top_virtual_seqr_h", this);
 
+top_virtual_seqr_h.i3c_env_cfg_h = i3c_env_cfg_h;
+
 	//adapter and predictor
 	adapter_inst = apb_master_adapter :: type_id :: create("adapter_inst");
   topPredictor = uvm_reg_predictor#(apb_master_tx) :: type_id :: create("topPredictor",this);
 
 regmodel =i3c_ral_reg_block::type_id::create("regmodel", this);
 regmodel.build();
+
+i3c_env_cfg_h.regBlockHandle = regmodel;
 
 endfunction
 

@@ -92,7 +92,7 @@ compile:
 
 # Setting a default test as base_test
 ifndef test
-override test = i3c_base_test
+override test = i3cAllSeqTest
 endif
 
 # Setting the default seed value to random 

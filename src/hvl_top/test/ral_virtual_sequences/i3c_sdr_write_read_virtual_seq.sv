@@ -11,7 +11,6 @@ class i3c_sdr_write_read_virtual_seq extends top_virtual_base_seq;
   uvm_reg_data_t wdatab_mirror;
   uvm_reg_data_t rdata;
 
-  bit sdr_done;
 
   function new(string name = "i3c_sdr_write_read_virtual_seq");
     super.new(name);
@@ -19,106 +18,179 @@ class i3c_sdr_write_read_virtual_seq extends top_virtual_base_seq;
 
 
   task body();
-    super.body();
 
     i3c_target_writeOperationWith8bitsData_seq target_write_seq;
     i3c_target_readOperationWith8bitsData_seq  target_read_seq;
+
+    super.body();
 
     `uvm_info(get_type_name(),
       "Starting SDR WRITE followed by READ test",
       UVM_LOW)
 
+
     // Start target traffic
+
     fork
-      forever begin
-        target_write_seq =
-          i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_write_seq");
-        target_write_seq.start(p_sequencer.i3c_target_seqr_h);
-      end
 
       forever begin
-        target_read_seq =
-          i3c_target_readOperationWith8bitsData_seq::type_id::create("target_read_seq");
-        target_read_seq.start(p_sequencer.i3c_target_seqr_h);
+
+        target_write_seq =
+          i3c_target_writeOperationWith8bitsData_seq::type_id::create(
+            "target_write_seq");
+
+        target_write_seq.start(
+          p_sequencer.i3c_target_seqr_h
+        );
+
       end
+
+
+      forever begin
+
+        target_read_seq =
+          i3c_target_readOperationWith8bitsData_seq::type_id::create(
+            "target_read_seq");
+
+        target_read_seq.start(
+          p_sequencer.i3c_target_seqr_h
+        );
+
+      end
+
     join_none;
 
-    // Write WDATAB
+
+
+    // WRITE WDATAB
+
     i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(
-      status, 8'hA5, .parent(this)
+      status,
+      8'hA5,
+      .parent(this)
     );
+
 
     wdatab_mirror =
       i3c_env_cfg_h.regBlockHandle.wdatab_inst.get_mirrored_value();
 
+
     `uvm_info("WDATAB_DEBUG",
-      $sformatf("WDATAB mirrored value = %0h", wdatab_mirror),
+      $sformatf("WDATAB mirrored value = %0h",
+      wdatab_mirror),
       UVM_LOW)
 
-    i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(status, UVM_CHECK);
+
+    i3c_env_cfg_h.regBlockHandle.wdatab_inst.mirror(
+      status,
+      UVM_CHECK
+    );
 
 
-    // Configure CTRL (WRITE)
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd1);
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0);
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.cmd_type.set(2'b00);
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
+
+    // CONFIGURE CTRL (WRITE)
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(
+      TARGET0_ADDRESS
+    );
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(
+      8'd1
+    );
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(
+      1'b0
+    );
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.cmd_type.set(
+      2'b00
+    );
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(
+      1'b1
+    );
+
 
     ctrl_val =
       i3c_env_cfg_h.regBlockHandle.ctrl_inst.get();
 
+
     `uvm_info("CTRL_DEBUG",
-      $sformatf("CTRL value before update = %0h", ctrl_val),
+      $sformatf("CTRL value before update = %0h",
+      ctrl_val),
       UVM_LOW)
 
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status, .parent(this));
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(
+      status,
+      .parent(this)
+    );
+
 
     ctrl_mirror =
       i3c_env_cfg_h.regBlockHandle.ctrl_inst.get_mirrored_value();
 
+
     `uvm_info("CTRL_DEBUG",
-      $sformatf("CTRL mirrored value after update = %0h", ctrl_mirror),
+      $sformatf("CTRL mirrored value after update = %0h",
+      ctrl_mirror),
       UVM_LOW)
 
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(
+      status,
+      UVM_CHECK
+    );
 
 
-    // Wait for WRITE complete
-    sdr_done = 0;
+    // WAIT FOR WRITE TRANSFER COMPLETE
 
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-      #1000;
-    end
+    #5000;
 
 
-    // READ PHASE
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b1);
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(1'b1);
 
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status, .parent(this));
+    // CONFIGURE CTRL (READ)
 
-    i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(
+      1'b1
+    );
 
-
-    // Wait for READ complete
-    sdr_done = 0;
-
-    while(!sdr_done) begin
-      i3c_env_cfg_h.regBlockHandle.status_inst.read(status, rdata);
-      sdr_done = rdata[0];
-     #1000;
-    end
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.start.set(
+      1'b1
+    );
 
 
-    // Read RDATAB
-    i3c_env_cfg_h.regBlockHandle.rdatab_inst.read(status, rdata);
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(
+      status,
+      .parent(this)
+    );
+
+
+    i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(
+      status,
+      UVM_CHECK
+    );
+
+
+    // WAIT FOR READ TRANSFER COMPLETE
+
+    #5000;
+
+
+
+    // READ RDATAB
+
+    i3c_env_cfg_h.regBlockHandle.rdatab_inst.read(
+      status,
+      rdata
+    );
+
 
     `uvm_info("READ_BACK",
-      $sformatf("Data from RDATAB = %0h", rdata),
+      $sformatf("Data from RDATAB = %0h",
+      rdata),
       UVM_MEDIUM)
+
 
 
     `uvm_info(get_type_name(),
