@@ -11,6 +11,7 @@
 
 +incdir+../../src/hvl_top/apb_master/
 +incdir+../../src/hvl_top/apb_master/master_sequences/
++incdir+../../src/globals/i3c_globals_pkg.sv
 
 +incdir+../../src/hvl_top/test
 +incdir+../../src/hdl_top/target_agent_bfm

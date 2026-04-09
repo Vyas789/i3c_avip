@@ -27,80 +27,79 @@ endfunction : connect_phase
 
 task i3c_scoreboard_expactedTargetAddressNACK::run_phase(uvm_phase phase);
   super.run_phase(phase);
-  
 endtask : run_phase
 
 function void i3c_scoreboard_expactedTargetAddressNACK::check_phase(uvm_phase phase);
   `uvm_info(get_type_name(),$sformatf("--\n--------SCOREBOARD CHECK PHASE----------------"),UVM_HIGH) 
   `uvm_info(get_type_name(),$sformatf(" Scoreboard Check Phase is starting"),UVM_HIGH); 
 
-  if (i3c_controller_tx_count == i3c_target_tx_count ) begin
-    `uvm_info (get_type_name(), $sformatf ("controller and target have equal no. of transactions  = %0d",i3c_controller_tx_count),UVM_HIGH);
-    `uvm_info (get_type_name(), $sformatf ("i3c_controller_tx_count : %0d",i3c_controller_tx_count ),UVM_HIGH);
-    `uvm_info (get_type_name(), $sformatf ("i3c_target_tx_count : %0d",i3c_target_tx_count),UVM_HIGH);
+  if (apb_tx_count == target_tx_count ) begin
+    `uvm_info (get_type_name(), $sformatf ("controller and target have equal no. of transactions  = %0d",apb_tx_count),UVM_HIGH);
+    `uvm_info (get_type_name(), $sformatf ("i3c_controller_tx_count : %0d",apb_tx_count ),UVM_HIGH);
+    `uvm_info (get_type_name(), $sformatf ("i3c_target_tx_count : %0d",target_tx_count),UVM_HIGH);
   end
   else begin
-    `uvm_info (get_type_name(), $sformatf ("i3c_controller_tx_count : %0d",i3c_controller_tx_count ),UVM_HIGH);
-    `uvm_info (get_type_name(), $sformatf ("i3c_target_tx_count : %0d",i3c_target_tx_count),UVM_HIGH);
+    `uvm_info (get_type_name(), $sformatf ("i3c_controller_tx_count : %0d",apb_tx_count ),UVM_HIGH);
+    `uvm_info (get_type_name(), $sformatf ("i3c_target_tx_count : %0d",target_tx_count),UVM_HIGH);
     `uvm_error ("SC_CheckPhase", $sformatf ("controller and target doesnot have same no.of transactions"));
   end 
 
-  if(i3c_env_cfg_h.writeReadMode_h == WRITE_READ) begin
-    if((writeDataComparisonSuccessCount == 0) && (writeDataComparisonFailedCount == 0)) begin
-      `uvm_info (get_type_name(), $sformatf ("controller And target writeData comparisions are equal = %0d",writeDataComparisonSuccessCount),UVM_HIGH);
+  if(i3c_env_cfg_h.writeReadMode_h == i3c_globals_pkg::WRITE_READ) begin
+    if((write_pass == 0) && (write_fail == 0)) begin
+      `uvm_info (get_type_name(), $sformatf ("controller And target writeData comparisions are equal = %0d",write_pass),UVM_HIGH);
     end
     else begin
       `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount : %0d",
-                                              writeDataComparisonSuccessCount),UVM_HIGH);
+                                              write_pass),UVM_HIGH);
       `uvm_info (get_type_name(), $sformatf ("writeDataComparisonFailedCount : %0d",
-                                              writeDataComparisonFailedCount),UVM_HIGH);
+                                              write_fail),UVM_HIGH);
       `uvm_error("SC_CheckPhase", $sformatf ("controller And target writeData comparisions Not equal"));
     end
 
-    if((readDataComparisonSuccessCount == 0) && (readDataComparisonFailedCount == 0)) begin
-      `uvm_info (get_type_name(), $sformatf ("controller And target readData comparisions are equal = %0d",readDataComparisonSuccessCount),UVM_HIGH);
+    if((read_pass == 0) && (read_fail == 0)) begin
+      `uvm_info (get_type_name(), $sformatf ("controller And target readData comparisions are equal = %0d",read_pass),UVM_HIGH);
     end                                      
     else begin
       `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount : %0d",
-                                             readDataComparisonSuccessCount),UVM_HIGH);
+                                             read_pass),UVM_HIGH);
       `uvm_info (get_type_name(), $sformatf ("readDataComparisonFailedCount : %0d",
-                                             readDataComparisonFailedCount),UVM_HIGH);
+                                             read_fail),UVM_HIGH);
       `uvm_error("SC_CheckPhase", $sformatf ("controller And target readData comparisions Not equal"));
     end
-  end else if(i3c_env_cfg_h.writeReadMode_h == WRITE) begin
-    if((writeDataComparisonSuccessCount == 0) && (writeDataComparisonFailedCount == 0)) begin
-      `uvm_info (get_type_name(), $sformatf ("controller And target writeData comparisions are equal = %0d",writeDataComparisonSuccessCount),UVM_HIGH);
+  end else if(i3c_env_cfg_h.writeReadMode_h == i3c_globals_pkg::WRITE) begin
+    if((write_pass == 0) && (write_fail == 0)) begin
+      `uvm_info (get_type_name(), $sformatf ("controller And target writeData comparisions are equal = %0d",write_pass),UVM_HIGH);
     end
     else begin
       `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount : %0d",
-                                              writeDataComparisonSuccessCount),UVM_HIGH);
+                                              write_pass),UVM_HIGH);
       `uvm_info (get_type_name(), $sformatf ("writeDataComparisonFailedCount : %0d",
-                                              writeDataComparisonFailedCount),UVM_HIGH);
+                                              write_fail),UVM_HIGH);
       `uvm_error("SC_CheckPhase", $sformatf ("controller And target writeData comparisions Not equal"));
     end
-  end else if(i3c_env_cfg_h.writeReadMode_h == READ) begin
-    if((readDataComparisonSuccessCount == 0) && (readDataComparisonFailedCount == 0)) begin
-      `uvm_info (get_type_name(), $sformatf ("controller And target readData comparisions are equal = %0d",readDataComparisonSuccessCount),UVM_HIGH);
+  end else if(i3c_env_cfg_h.writeReadMode_h == i3c_globals_pkg::READ) begin
+    if((read_pass == 0) && (read_fail == 0)) begin
+      `uvm_info (get_type_name(), $sformatf ("controller And target readData comparisions are equal = %0d",read_pass),UVM_HIGH);
     end                                      
     else begin
       `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount : %0d",
-                                             readDataComparisonSuccessCount),UVM_HIGH);
+                                             read_pass),UVM_HIGH);
       `uvm_info (get_type_name(), $sformatf ("readDataComparisonFailedCount : %0d",
-                                             readDataComparisonFailedCount),UVM_HIGH);
+                                             read_fail),UVM_HIGH);
       `uvm_error("SC_CheckPhase", $sformatf ("controller And target readData comparisions Not equal"));
     end
   end
 
   `uvm_info (get_type_name(), $sformatf ("writeDataComparisonSuccessCount :%0d",
-                                          writeDataComparisonSuccessCount),UVM_HIGH);
+                                          write_pass),UVM_HIGH);
   `uvm_info (get_type_name(), $sformatf ("readDataComparisonSuccessCount :%0d",
-                                          readDataComparisonSuccessCount),UVM_HIGH);
+                                          read_pass),UVM_HIGH);
     
-  if(controller_analysis_fifo.size() == 0)begin
+  if(apb_analysis_fifo.size() == 0)begin
     `uvm_info ("SC_CheckPhase", $sformatf ("I3c Controller analysis FIFO is empty"),UVM_HIGH);
   end
   else begin
-    `uvm_info (get_type_name(), $sformatf ("i3c Controller analysis_fifo:%0d",controller_analysis_fifo.size() ),UVM_HIGH);
+    `uvm_info (get_type_name(), $sformatf ("i3c Controller analysis_fifo:%0d",apb_analysis_fifo.size() ),UVM_HIGH);
     `uvm_error ("SC_CheckPhase", $sformatf ("i3c Controller analysis FIFO is not empty"));
   end
 
@@ -116,4 +115,3 @@ function void i3c_scoreboard_expactedTargetAddressNACK::check_phase(uvm_phase ph
 endfunction : check_phase
 
 `endif
-

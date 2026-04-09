@@ -1,5 +1,5 @@
 # vsim -vopt work.hvl_top work.hdl_top -voptargs="+acc=npr" -sv_seed random -assertdebug "+UVM_TESTNAME=i3cAllSeqTest" "+UVM_VERBOSITY=UVM_MEDIUM" "+define+" -l i3cAllSeqTest/i3cAllSeqTest.log -sva -coverage -c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb; run -all; exit" -wlf i3cAllSeqTest/waveform.wlf 
-# Start time: 12:29:01 on Apr 08,2026
+# Start time: 09:34:31 on Apr 09,2026
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_bit_engine(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_daa_fsm(fast)".
@@ -85,7 +85,7 @@
 # ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/sda_oen', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
 #    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
 # Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
-# Sv_Seed = 1069467161
+# Sv_Seed = 3171367521
 # log -r /*
 #  add wave -r /*
 #  coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb
@@ -168,38 +168,51 @@
 # uvm_test_top                      i3cAllSeqTest                       -     @477 
 #   i3c_env_h                       i3c_env                             -     @509 
 #     apb_master_agent_h            apb_master_agent                    -     @542 
-#       apb_master_cov_h            apb_master_coverage                 -     @861 
-#         analysis_imp              uvm_analysis_imp                    -     @868 
-#       apb_master_drv_proxy_h      apb_master_driver_proxy             -     @714 
-#         rsp_port                  uvm_analysis_port                   -     @729 
-#         seq_item_port             uvm_seq_item_pull_port              -     @721 
-#       apb_master_mon_proxy_h      apb_master_monitor_proxy            -     @846 
-#         apb_master_analysis_port  uvm_analysis_port                   -     @853 
-#       apb_master_seqr_h           apb_master_sequencer                -     @737 
-#         rsp_export                uvm_analysis_export                 -     @744 
-#         seq_item_export           uvm_seq_item_pull_imp               -     @838 
+#       apb_master_cov_h            apb_master_coverage                 -     @868 
+#         analysis_imp              uvm_analysis_imp                    -     @875 
+#       apb_master_drv_proxy_h      apb_master_driver_proxy             -     @721 
+#         rsp_port                  uvm_analysis_port                   -     @736 
+#         seq_item_port             uvm_seq_item_pull_port              -     @728 
+#       apb_master_mon_proxy_h      apb_master_monitor_proxy            -     @853 
+#         apb_master_analysis_port  uvm_analysis_port                   -     @860 
+#       apb_master_seqr_h           apb_master_sequencer                -     @744 
+#         rsp_export                uvm_analysis_export                 -     @751 
+#         seq_item_export           uvm_seq_item_pull_imp               -     @845 
 #         arbitration_queue         array                               0     -    
 #         lock_queue                array                               0     -    
 #         num_last_reqs             integral                            32    'd1  
 #         num_last_rsps             integral                            32    'd1  
+#     i3c_scoreboard_h              i3c_scoreboard                      -     @665 
+#       apb_analysis_fifo           uvm_tlm_analysis_fifo #(T)          -     @891 
+#         analysis_export           uvm_analysis_imp                    -     @930 
+#         get_ap                    uvm_analysis_port                   -     @922 
+#         get_peek_export           uvm_get_peek_imp                    -     @906 
+#         put_ap                    uvm_analysis_port                   -     @914 
+#         put_export                uvm_put_imp                         -     @898 
+#       target_analysis_fifo        uvm_tlm_analysis_fifo #(T)          -     @938 
+#         analysis_export           uvm_analysis_imp                    -     @977 
+#         get_ap                    uvm_analysis_port                   -     @969 
+#         get_peek_export           uvm_get_peek_imp                    -     @953 
+#         put_ap                    uvm_analysis_port                   -     @961 
+#         put_export                uvm_put_imp                         -     @945 
 #     i3c_target_agent_h[0]         i3c_target_agent                    -     @549 
-#       i3c_target_cov_h            i3c_target_coverage                 -     @1036
-#         analysis_imp              uvm_analysis_imp                    -     @1043
-#       i3c_target_drv_proxy_h      i3c_target_driver_proxy             -     @904 
-#         rsp_port                  uvm_analysis_port                   -     @919 
-#         seq_item_port             uvm_seq_item_pull_port              -     @911 
-#       i3c_target_mon_proxy_h      i3c_target_monitor_proxy            -     @885 
-#         target_analysis_port      uvm_analysis_port                   -     @892 
-#       i3c_target_seqr_h           i3c_target_sequencer                -     @927 
-#         rsp_export                uvm_analysis_export                 -     @934 
-#         seq_item_export           uvm_seq_item_pull_imp               -     @1028
+#       i3c_target_cov_h            i3c_target_coverage                 -     @1138
+#         analysis_imp              uvm_analysis_imp                    -     @1145
+#       i3c_target_drv_proxy_h      i3c_target_driver_proxy             -     @1006
+#         rsp_port                  uvm_analysis_port                   -     @1021
+#         seq_item_port             uvm_seq_item_pull_port              -     @1013
+#       i3c_target_mon_proxy_h      i3c_target_monitor_proxy            -     @987 
+#         target_analysis_port      uvm_analysis_port                   -     @994 
+#       i3c_target_seqr_h           i3c_target_sequencer                -     @1029
+#         rsp_export                uvm_analysis_export                 -     @1036
+#         seq_item_export           uvm_seq_item_pull_imp               -     @1130
 #         arbitration_queue         array                               0     -    
 #         lock_queue                array                               0     -    
 #         num_last_reqs             integral                            32    'd1  
 #         num_last_rsps             integral                            32    'd1  
-#     topPredictor                  uvm_reg_predictor #(apb_master_tx)  -     @666 
-#       bus_in                      uvm_analysis_imp                    -     @673 
-#       reg_ap                      uvm_analysis_port                   -     @681 
+#     topPredictor                  uvm_reg_predictor #(apb_master_tx)  -     @673 
+#       bus_in                      uvm_analysis_imp                    -     @680 
+#       reg_ap                      uvm_analysis_port                   -     @688 
 #     top_virtual_seqr_h            top_virtual_sequencer               -     @556 
 #       rsp_export                  uvm_analysis_export                 -     @563 
 #       seq_item_export             uvm_seq_item_pull_imp               -     @657 
@@ -217,7 +230,7 @@
 # -----------------------------------------------------------------------------------------------------------------------------------
 # Name                           Type           Size  Value                                                                          
 # -----------------------------------------------------------------------------------------------------------------------------------
-# req                            i3c_target_tx  -     @1099                                                                          
+# req                            i3c_target_tx  -     @1201                                                                          
 #   begin_time                   time           64    110                                                                            
 #   depth                        int            32    'd2                                                                            
 #   parent sequence (name)       string         16    target_seq_write                                                               
@@ -370,7 +383,7 @@
 #  ---------------------------------------------------------------------
 # Name                          Type           Size  Value             
 # ---------------------------------------------------------------------
-# apb_master_tx                 apb_master_tx  -     @1090             
+# apb_master_tx                 apb_master_tx  -     @1192             
 #   pselx                       string         7     SLAVE_0           
 #   paddr                       integral       32    'h30              
 #   pwrite                      string         5     WRITE             
@@ -389,7 +402,7 @@
 #  ---------------------------------------------------------------------
 # Name                          Type           Size  Value             
 # ---------------------------------------------------------------------
-# apb_master_tx                 apb_master_tx  -     @1193             
+# apb_master_tx                 apb_master_tx  -     @1295             
 #   pselx                       string         7     SLAVE_0           
 #   paddr                       integral       32    'h30              
 #   pwrite                      string         4     READ              
@@ -404,11 +417,12 @@
 # 
 # UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(80) @ 250: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [CTRL_DEBUG] CTRL value before update = 800000e8
 # UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 270: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
+# UVM_INFO ../../src/hvl_top/env/i3c_scoreboard.sv(91) @ 320: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB] CTRL decoded: addr=0x68 dir=0 len=1 cmd_type=0 ccc=0x0
 # UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 330: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
 #  ---------------------------------------------------------------------
 # Name                          Type           Size  Value             
 # ---------------------------------------------------------------------
-# apb_master_tx                 apb_master_tx  -     @1209             
+# apb_master_tx                 apb_master_tx  -     @1311             
 #   pselx                       string         7     SLAVE_0           
 #   paddr                       integral       32    'hc               
 #   pwrite                      string         5     WRITE             
@@ -427,7 +441,7 @@
 #  ---------------------------------------------------------------------
 # Name                          Type           Size  Value             
 # ---------------------------------------------------------------------
-# apb_master_tx                 apb_master_tx  -     @1229             
+# apb_master_tx                 apb_master_tx  -     @1331             
 #   pselx                       string         7     SLAVE_0           
 #   paddr                       integral       32    'hc               
 #   pwrite                      string         4     READ              
@@ -442,6 +456,13 @@
 # 
 # UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(93) @ 410: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [i3c_sdr_write_virtual_seq] SDR WRITE issued and registers verified
 # UVM_INFO verilog_src/uvm-1.1d/src/base/uvm_objection.svh(1268) @ 3410: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+# UVM_INFO ../../src/hvl_top/env/i3c_scoreboard.sv(227) @ 3410: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB_SUMMARY] 
+# ========= SCOREBOARD SUMMARY =========
+#   APB transactions seen    : 4
+#   I3C target transactions  : 0
+#   Write byte pass / fail   : 0 / 0
+#   Read  byte pass / fail   : 0 / 0
+# ======================================
 # UVM_INFO ../../src/hvl_top/apb_master//apb_master_coverage.sv(121) @ 3410: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_cov_h [apb_master_coverage] APB Master Agent Coverage = 26.04 %
 # 
 # --------------------------------------
@@ -453,7 +474,7 @@
 # --- UVM Report Summary ---
 # 
 # ** Report counts by severity
-# UVM_INFO :   31
+# UVM_INFO :   33
 # UVM_WARNING :    0
 # UVM_ERROR :    0
 # UVM_FATAL :    0
@@ -464,6 +485,8 @@
 # [DEBUG_MSHA]     7
 # [Questa UVM]     2
 # [RNTST]     1
+# [SB]     1
+# [SB_SUMMARY]     1
 # [TEST_DONE]     1
 # [UVMTOP]     1
 # [WDATAB_DEBUG]     1
@@ -477,5 +500,5 @@
 # ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 3410 ns  Iteration: 53  Instance: /hvl_top
 # Saving coverage database on exit...
-# End time: 12:32:12 on Apr 08,2026, Elapsed time: 0:03:11
+# End time: 09:34:36 on Apr 09,2026, Elapsed time: 0:00:05
 # Errors: 0, Warnings: 7
