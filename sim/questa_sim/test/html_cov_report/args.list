@@ -1,5 +1,0 @@
--html
-test/test_coverage.ucdb
--htmldir
-test/html_cov_report
--details
