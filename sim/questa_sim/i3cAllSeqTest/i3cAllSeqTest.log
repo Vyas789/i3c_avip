@@ -1,10 +1,10 @@
 # vsim -vopt work.hvl_top work.hdl_top -voptargs="+acc=npr" -sv_seed random -assertdebug "+UVM_TESTNAME=i3cAllSeqTest" "+UVM_VERBOSITY=UVM_MEDIUM" "+define+" -l i3cAllSeqTest/i3cAllSeqTest.log -sva -coverage -c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb; run -all; exit" -wlf i3cAllSeqTest/waveform.wlf 
-# Start time: 16:28:37 on Apr 13,2026
+# Start time: 20:50:25 on Apr 13,2026
 # ** Note: (vsim-3812) Design is being optimized...
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_bit_engine(fast)".
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(429): (vopt-2685) [TFMPC] - Too few port connections for 'x2'.  Expected 19, found 17.
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(429): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_ccc_is_read'.
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(429): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_is_ccc'.
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2685) [TFMPC] - Too few port connections for 'x2'.  Expected 19, found 17.
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_ccc_is_read'.
+# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_is_ccc'.
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_daa_fsm(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_sdr_fsm(fast)".
 # ** Note: (vopt-143) Recognized 1 FSM in module "i3c_scl_gen(fast)".
@@ -77,7 +77,7 @@
 # Loading work.i3c_target_monitor_bfm(fast)
 # Loading mtiUvm.questa_uvm_pkg(fast)
 # Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
-# Sv_Seed = 2954488402
+# Sv_Seed = 1038107059
 # log -r /*
 #  add wave -r /*
 #  coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb
@@ -301,233 +301,149 @@
 # RTL @ 370: cmd_start asserted
 # RTL @ 370: start_sdr asserted
 # RTL @ 390: be_valid asserted be_rw=0
-# RTL @ 410: start=1 stop=0 scl_oe=0 scl_o=1
 # RTL @ 410: START condition generated!
 # RTL @ 410: scl_o changed to 0 scl_oe=0
 # MONITOR :: checking start at time 420 scl_local=11 sda_local=10
 # RTL @ 430: sda_oe asserted sda_o=0
 # RTL @ 430: START condition generated!
-# RTL @ 430: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 450: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 450: START condition generated!
 # RTL @ 450: sda_oe asserted sda_o=0
 # RTL @ 470: sda_oe asserted sda_o=0
 # RTL @ 470: START condition generated!
-# RTL @ 470: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 490: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 490: START condition generated!
 # RTL @ 490: sda_oe asserted sda_o=0
 # RTL @ 510: sda_oe asserted sda_o=0
 # RTL @ 510: START condition generated!
-# RTL @ 510: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 530: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 530: START condition generated!
 # RTL @ 530: sda_oe asserted sda_o=0
 # RTL @ 550: START condition generated!
-# RTL @ 550: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 570: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 570: START condition generated!
 # RTL @ 590: START condition generated!
-# RTL @ 590: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 610: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 610: START condition generated!
 # RTL @ 630: START condition generated!
-# RTL @ 630: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 650: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 650: START condition generated!
 # RTL @ 670: START condition generated!
-# RTL @ 670: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 690: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 690: START condition generated!
 # RTL @ 710: START condition generated!
-# RTL @ 710: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 730: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 730: START condition generated!
 # RTL @ 750: START condition generated!
-# RTL @ 750: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 770: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 770: START condition generated!
 # RTL @ 790: START condition generated!
-# RTL @ 790: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 810: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 810: START condition generated!
 # RTL @ 830: START condition generated!
-# RTL @ 830: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 850: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 850: START condition generated!
 # RTL @ 870: sda_oe asserted sda_o=0
 # RTL @ 870: START condition generated!
-# RTL @ 870: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 890: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 890: START condition generated!
 # RTL @ 890: sda_oe asserted sda_o=0
 # RTL @ 910: sda_oe asserted sda_o=0
 # RTL @ 910: START condition generated!
-# RTL @ 910: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 930: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 930: START condition generated!
 # RTL @ 930: sda_oe asserted sda_o=0
 # RTL @ 950: sda_oe asserted sda_o=0
 # RTL @ 950: START condition generated!
-# RTL @ 950: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 970: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 970: START condition generated!
 # RTL @ 970: sda_oe asserted sda_o=0
 # RTL @ 990: sda_oe asserted sda_o=0
 # RTL @ 990: START condition generated!
-# RTL @ 990: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1010: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1010: START condition generated!
 # RTL @ 1010: sda_oe asserted sda_o=0
 # RTL @ 1030: START condition generated!
-# RTL @ 1030: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1050: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1050: START condition generated!
 # RTL @ 1070: START condition generated!
-# RTL @ 1070: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1090: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1090: START condition generated!
 # RTL @ 1110: START condition generated!
-# RTL @ 1110: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1130: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1130: START condition generated!
 # RTL @ 1150: START condition generated!
-# RTL @ 1150: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1170: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1170: START condition generated!
 # RTL @ 1190: sda_oe asserted sda_o=0
 # RTL @ 1190: START condition generated!
-# RTL @ 1190: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1210: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1210: START condition generated!
 # RTL @ 1210: sda_oe asserted sda_o=0
 # RTL @ 1230: sda_oe asserted sda_o=0
 # RTL @ 1230: START condition generated!
-# RTL @ 1230: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1250: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1250: START condition generated!
 # RTL @ 1250: sda_oe asserted sda_o=0
 # RTL @ 1270: sda_oe asserted sda_o=0
 # RTL @ 1270: START condition generated!
-# RTL @ 1270: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1290: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1290: START condition generated!
 # RTL @ 1290: sda_oe asserted sda_o=0
 # RTL @ 1310: sda_oe asserted sda_o=0
 # RTL @ 1310: START condition generated!
-# RTL @ 1310: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1330: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1330: START condition generated!
 # RTL @ 1330: sda_oe asserted sda_o=0
 # RTL @ 1350: sda_oe asserted sda_o=0
 # RTL @ 1350: START condition generated!
-# RTL @ 1350: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1370: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1370: START condition generated!
 # RTL @ 1370: sda_oe asserted sda_o=0
 # RTL @ 1390: sda_oe asserted sda_o=0
 # RTL @ 1390: START condition generated!
-# RTL @ 1390: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1410: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1410: START condition generated!
 # RTL @ 1410: sda_oe asserted sda_o=0
 # RTL @ 1430: sda_oe asserted sda_o=0
 # RTL @ 1430: START condition generated!
-# RTL @ 1430: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1450: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1450: START condition generated!
 # RTL @ 1450: sda_oe asserted sda_o=0
 # RTL @ 1470: sda_oe asserted sda_o=0
 # RTL @ 1470: START condition generated!
-# RTL @ 1470: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1490: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1490: START condition generated!
 # RTL @ 1490: sda_oe asserted sda_o=0
 # RTL @ 1510: sda_oe asserted sda_o=0
 # RTL @ 1510: START condition generated!
-# RTL @ 1510: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1530: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1530: START condition generated!
 # RTL @ 1530: sda_oe asserted sda_o=0
 # RTL @ 1550: sda_oe asserted sda_o=0
 # RTL @ 1550: START condition generated!
-# RTL @ 1550: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1570: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1570: START condition generated!
 # RTL @ 1570: sda_oe asserted sda_o=0
 # RTL @ 1590: sda_oe asserted sda_o=0
 # RTL @ 1590: START condition generated!
-# RTL @ 1590: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1610: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1610: START condition generated!
 # RTL @ 1610: sda_oe asserted sda_o=0
 # RTL @ 1630: sda_oe asserted sda_o=0
 # RTL @ 1630: START condition generated!
-# RTL @ 1630: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1650: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1650: START condition generated!
 # RTL @ 1650: sda_oe asserted sda_o=0
 # RTL @ 1670: sda_oe asserted sda_o=0
 # RTL @ 1670: START condition generated!
-# RTL @ 1670: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1690: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1690: START condition generated!
 # RTL @ 1690: sda_oe asserted sda_o=0
 # RTL @ 1710: sda_oe asserted sda_o=0
 # RTL @ 1710: START condition generated!
-# RTL @ 1710: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1730: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1730: START condition generated!
 # RTL @ 1730: sda_oe asserted sda_o=0
 # RTL @ 1750: sda_oe asserted sda_o=0
 # RTL @ 1750: START condition generated!
-# RTL @ 1750: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1770: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1770: START condition generated!
 # RTL @ 1770: sda_oe asserted sda_o=0
 # RTL @ 1790: sda_oe asserted sda_o=0
 # RTL @ 1790: START condition generated!
-# RTL @ 1790: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1810: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1810: START condition generated!
 # RTL @ 1810: sda_oe asserted sda_o=0
 # RTL @ 1830: START condition generated!
-# RTL @ 1830: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1850: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1850: START condition generated!
 # RTL @ 1870: START condition generated!
-# RTL @ 1870: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1890: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1890: START condition generated!
 # RTL @ 1910: START condition generated!
-# RTL @ 1910: start=1 stop=0 scl_oe=0 scl_o=0
-# RTL @ 1930: start=1 stop=0 scl_oe=0 scl_o=0
 # RTL @ 1930: START condition generated!
 # RTL @ 1950: START condition generated!
-# RTL @ 1950: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 1970: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 1970: START condition generated!
 # RTL @ 1990: sda_oe asserted sda_o=0
 # RTL @ 1990: START condition generated!
-# RTL @ 1990: start=1 stop=0 scl_oe=1 scl_o=0
-# RTL @ 2010: start=1 stop=0 scl_oe=1 scl_o=0
 # RTL @ 2010: START condition generated!
 # RTL @ 2010: sda_oe asserted sda_o=0
 # RTL @ 2030: sda_oe asserted sda_o=0
 # RTL @ 2030: START condition generated!
-# RTL @ 2030: start=1 stop=0 scl_oe=0 scl_o=0
 # UVM_INFO ../../src/hvl_top/target//i3c_target_seq_item_converter.sv(43) @ 2041: reporter [target_seq_item_conv_class] To class targetAddress = 
 #  104
 # UVM_INFO ../../src/hvl_top/target//i3c_target_coverage.sv(92) @ 2041: uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_cov_h [DEBUG_m_coverage] I3C_target_TX {i3c_target_tx} 1327 1 1331 @uvm_status_container@1 @uvm_object_string_pool__1@98 @uvm_event@47 @uvm_event@48 -1 18446744073709551615 18446744073709551615 18446744073709551615 null 0 0 0 null -1 0 -1 null null 0 {} null null 0 0 {} NACK {} WRITE 104 {} {} 0 {i3c_target_tx}
 # UVM_INFO ../../src/hvl_top/env/i3c_scoreboard.sv(167) @ 2041: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB_ADDR_MATCH] Address match: 0x68
 # UVM_INFO ../../src/hvl_top/env/i3c_scoreboard.sv(179) @ 2041: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB_OP_MATCH] Operation match: WRITE
 # UVM_ERROR ../../src/hvl_top/env/i3c_scoreboard.sv(191) @ 2041: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB_WDATA_SIZE] Write data size mismatch: expected 1  got 0
-# RTL @ 2050: start=1 stop=1 scl_oe=0 scl_o=0
 # RTL @ 2050: START condition generated!
 # RTL @ 2050: sda_oe asserted sda_o=1
 # RTL @ 2050: scl_o changed to 1 scl_oe=0
 # RTL @ 2070: START condition generated!
-# RTL @ 2070: start=1 stop=1 scl_oe=0 scl_o=1
 # UVM_INFO ../../src/hdl_top/apb_master_agent_bfm/apb_master_driver_bfm.sv(134) @ 50350: reporter [DEBUG_MSHA] drive_apb_setup state = SETUP and state = 2
 # UVM_INFO ../../src/hvl_top/apb_master//apb_master_driver_proxy.sv(119) @ 50410: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_drv_proxy_h [apb_master_driver_proxy] AFTER :: received req packet 
 #  ---------------------------------------------------------------------
@@ -604,5 +520,5 @@
 # ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 103410 ns  Iteration: 53  Instance: /hvl_top
 # Saving coverage database on exit...
-# End time: 16:28:41 on Apr 13,2026, Elapsed time: 0:00:04
+# End time: 20:50:30 on Apr 13,2026, Elapsed time: 0:00:05
 # Errors: 0, Warnings: 3
