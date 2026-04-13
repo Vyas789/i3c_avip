@@ -1,0 +1,14 @@
+# Questa simulation outputs
+sim/questa_sim/
+
+# Logs and coverage
+*.log
+*.ucdb
+*.wlf
+
+# Coverage reports
+html_cov_report/
+
+# Temp files
+*.swp
+*~
