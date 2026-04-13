@@ -34,5 +34,3 @@ task i3c_target_readOperationWith8bitsData_seq::body();
 endtask:body
 
 `endif
-
-

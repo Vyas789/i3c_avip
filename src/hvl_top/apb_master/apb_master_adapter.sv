@@ -83,8 +83,14 @@ function void apb_master_adapter::bus2reg( uvm_sequence_item bus_item,
 
   rw.kind = ( apb_tx.pwrite == READ ) ? UVM_READ : UVM_WRITE;
   rw.addr = apb_tx.paddr;
-  rw.data = apb_tx.prdata;
-  rw.status = UVM_IS_OK;
+//  rw.data = apb_tx.prdata;
+  
+if (apb_tx.pwrite == WRITE)
+    rw.data = apb_tx.pwdata;
+  else
+    rw.data = apb_tx.prdata;
+
+rw.status = UVM_IS_OK;
 
   `uvm_info(get_type_name(), $sformatf("The converted bus2reg packet is %s\n",apb_tx.sprint()), UVM_HIGH);
 

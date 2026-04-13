@@ -65,7 +65,7 @@ task i3c_scoreboard::run_phase(uvm_phase phase);
   end
 endtask
 
-
+/*
 // collect_apb_transaction
 // Waits for CTRL write with start=1, then collects N WDATAB writes for WRITE mode
 task i3c_scoreboard::collect_apb_transaction();
@@ -110,6 +110,40 @@ task i3c_scoreboard::collect_apb_transaction();
   end
 endtask
 
+*/
+
+task i3c_scoreboard::collect_apb_transaction();
+  apb_master_tx apb_pkt;
+  int bytes_collected;
+  exp_write_data.delete();
+  bytes_collected = 0;
+
+  // collect ALL APB transactions until CTRL start=1
+  forever begin
+    apb_analysis_fifo.get(apb_pkt);
+    apb_tx_count++;
+
+    // collect WDATAB writes as they come
+    if(apb_pkt.pwrite == apb_global_pkg::WRITE && 
+       apb_pkt.paddr[6:0] == 7'h30) begin
+      exp_write_data.push_back(apb_pkt.pwdata[7:0]);
+      `uvm_info("SB", $sformatf("WDATAB collected = 0x%0x", 
+                apb_pkt.pwdata[7:0]), UVM_HIGH)
+    end
+
+    // when CTRL start=1 seen, stop collecting
+    if(apb_pkt.pwrite == apb_global_pkg::WRITE && 
+       apb_pkt.paddr[6:0] == 7'h0C &&
+       apb_pkt.pwdata[31] == 1'b1) begin
+      decode_ctrl(apb_pkt.pwdata);
+      `uvm_info("SB", $sformatf(
+        "CTRL decoded: addr=0x%0x dir=%0b len=%0d cmd_type=%0b ccc=0x%0x",
+        exp_address, exp_direction, exp_length, 
+        exp_cmd_type, exp_ccc), UVM_MEDIUM)
+      break;
+    end
+  end
+endtask
 
 function void i3c_scoreboard::decode_ctrl(bit [31:0] ctrl_val);
   exp_address   = ctrl_val[6:0];

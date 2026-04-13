@@ -33,15 +33,17 @@ interface i3c_target_monitor_bfm(input pclk,
   task sample_idle_state();
     @(posedge pclk);
   endtask: sample_idle_state
-  
+
   task wait_for_idle_state();
     @(posedge pclk);
-    while(scl_i!=1 && sda_i!=1) begin
-     @(posedge pclk);
+   while(scl_i!=1 && sda_i!=1) begin
+   @(posedge pclk);
     end
     state = IDLE;
   endtask: wait_for_idle_state
-  
+
+
+
   task sample_data(inout i3c_transfer_bits_s struct_packet,inout i3c_transfer_cfg_s struct_cfg);
 
     detect_start();
@@ -98,7 +100,6 @@ interface i3c_target_monitor_bfm(input pclk,
     disable fork;
   endtask: sampleReadDataAndACK 
   
-
   task detect_start();
     bit [1:0] scl_local;
     bit [1:0] sda_local;
@@ -109,6 +110,7 @@ interface i3c_target_monitor_bfm(input pclk,
       scl_local = {scl_local[0], scl_i};
       sda_local = {sda_local[0], sda_i};
     end while(!(sda_local == NEGEDGE && scl_local == 2'b11) );
+$display("MONITOR :: checking start at time %0t scl_local=%0b sda_local=%0b", $time, scl_local, sda_local);
   endtask: detect_start
   
 

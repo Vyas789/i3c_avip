@@ -87,6 +87,8 @@ if(i3c_env_cfg_h.regBlockHandle.wdatab_inst == null)
       $sformatf("CTRL mirrored value after update = %0h", ctrl_mirror),
       UVM_LOW)
 
+#50us;
+
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status, UVM_CHECK);
 
 

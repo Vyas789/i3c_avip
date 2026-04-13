@@ -35,7 +35,7 @@ function void i3c_target_driver_proxy::end_of_elaboration_phase(uvm_phase phase)
   i3c_target_drv_bfm_h.i3c_target_drv_proxy_h = this;
 endfunction  : end_of_elaboration_phase
 
-
+/*
 task i3c_target_driver_proxy::run_phase(uvm_phase phase);
   super.run_phase(phase);
    
@@ -43,6 +43,7 @@ task i3c_target_driver_proxy::run_phase(uvm_phase phase);
   i3c_target_drv_bfm_h.drive_idle_state();
 
   forever begin
+// `uvm_info("TGT_DRV_PROXY", "Waiting for item from sequencer...", UVM_NONE)
     i3c_transfer_bits_s struct_packet;
     i3c_transfer_cfg_s struct_cfg;
     acknowledge_e ack;
@@ -51,6 +52,7 @@ task i3c_target_driver_proxy::run_phase(uvm_phase phase);
     i3c_target_drv_bfm_h.wait_for_idle_state();
 
     seq_item_port.get_next_item(req);
+//`uvm_info("TGT_DRV_PROXY", "Got item - calling BFM drive task now", UVM_NONE)
 
     `uvm_info(get_type_name(),$sformatf("Received packet from i3c target sequencer : , \n %s",req.sprint()),UVM_HIGH)
     `uvm_info("DEBUG_MSHA", $sformatf("CFG :: i3c_transfer_cfg_s = %s",i3c_target_agent_cfg_h.sprint()), UVM_MEDIUM); 
@@ -58,14 +60,41 @@ task i3c_target_driver_proxy::run_phase(uvm_phase phase);
     `uvm_info("DEBUG_MSHA", $sformatf("CFG :: struct_cfg = %p",struct_cfg), UVM_NONE); 
     i3c_target_seq_item_converter::from_class(req, struct_packet); 
 
+
     i3c_target_drv_bfm_h.drive_data(struct_packet,struct_cfg);
     
     i3c_target_seq_item_converter::to_class(struct_packet, req);
-    `uvm_info(get_type_name(),$sformatf("Received packet from target DRIVER BFM : , \n %s",req.sprint()),UVM_HIGH)
 
       seq_item_port.item_done();
+`uvm_info("TGT_DRV_PROXY", "item_done called", UVM_NONE)
+  end
+endtask : run_phase
+
+*/
+
+task i3c_target_driver_proxy::run_phase(uvm_phase phase);
+  i3c_transfer_bits_s struct_packet;
+  i3c_transfer_cfg_s  struct_cfg;
+  
+  super.run_phase(phase);
+  i3c_target_drv_bfm_h.wait_for_system_reset();
+  i3c_target_drv_bfm_h.drive_idle_state();
+  
+  forever begin
+    seq_item_port.get_next_item(req);
+    `uvm_info("TGT_DRV_PROXY", "Got item from sequencer", UVM_NONE)
+    
+    i3c_target_cfg_converter::from_class(i3c_target_agent_cfg_h, struct_cfg);
+    i3c_target_seq_item_converter::from_class(req, struct_packet);
+    i3c_target_drv_bfm_h.drive_data(struct_packet, struct_cfg);
+    i3c_target_seq_item_converter::to_class(struct_packet, req);
+    
+    seq_item_port.item_done();
+    `uvm_info("TGT_DRV_PROXY", "item_done called", UVM_NONE)
   end
 endtask : run_phase
 
 `endif
+
+
 

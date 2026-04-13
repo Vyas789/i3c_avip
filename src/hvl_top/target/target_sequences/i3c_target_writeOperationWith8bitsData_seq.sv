@@ -12,6 +12,7 @@ function i3c_target_writeOperationWith8bitsData_seq::new(string name = "i3c_targ
   super.new(name);
 endfunction : new
 
+/*
 task i3c_target_writeOperationWith8bitsData_seq::body();
 
 //  super.body();
@@ -28,12 +29,41 @@ task i3c_target_writeOperationWith8bitsData_seq::body();
     if(!req.randomize()) begin
       `uvm_error(get_type_name(), "Randomization failed")
     end
+else begin
+      `uvm_info(get_type_name(), $sformatf("Randomization SUCCESS - req contents below"), UVM_NONE)
+      req.print();
+    end
   
-    req.print();
   finish_item(req);
-
+`uvm_info(get_type_name(), "finish_item returned - item sent to driver", UVM_NONE)
 endtask:body
-  
-`endif
+  */
 
+task i3c_target_writeOperationWith8bitsData_seq::body();
+  req = i3c_target_tx::type_id::create("req");
+  start_item(req);
+
+    `uvm_info(get_type_name(), "Before randomization - req created", UVM_NONE)
+
+    // targetAddress is NOT rand - assign directly before randomize
+    req.targetAddress = 7'h68;
+    req.operation     = WRITE;
+
+    if(!req.randomize() with {
+        targetAddressStatus == ACK;   // override the 60% NACK bias
+    }) begin
+      `uvm_error(get_type_name(), "Randomization failed")
+    end else begin
+      // writeDataStatus size is soft==128, override to match transfer len=1
+      req.writeDataStatus    = new[1];
+      req.writeDataStatus[0] = ACK;
+      `uvm_info(get_type_name(), "Randomization SUCCESS - after overrides", UVM_NONE)
+      req.print();
+    end
+
+  finish_item(req);
+  `uvm_info(get_type_name(), "finish_item returned - item sent to driver", UVM_NONE)
+endtask : body
+
+`endif
 
