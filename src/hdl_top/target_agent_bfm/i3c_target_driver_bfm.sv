@@ -5,10 +5,8 @@ import i3c_globals_pkg::*;
 interface i3c_target_driver_bfm(input pclk, 
                                input areset,
                                input scl_i,
-                          //     output reg scl_o,
-                        //       output reg scl_oen,
-				input scl_o,
-				input scl_oen,
+                               output reg scl_o,
+                               output reg scl_oen,
                                input sda_i,
                                output reg sda_o,
                                output reg sda_oen
@@ -45,7 +43,7 @@ interface i3c_target_driver_bfm(input pclk,
 
   task drive_idle_state();
     @(posedge pclk);
-    //drive_scl(1);
+    drive_scl(1);
     drive_sda(1);
     state <= IDLE;
   endtask: drive_idle_state
@@ -54,10 +52,10 @@ interface i3c_target_driver_bfm(input pclk,
   task wait_for_idle_state();
     @(posedge pclk);
     while(scl_i!=1 && sda_i!=1) begin
-    @(posedge pclk);
+      @(posedge pclk);
     end
     state = IDLE;
-    `uvm_info(name, $sformatf("I3C bus is free state detected"), UVM_HIGH);
+    `uvm_info(name, $sformatf("I3C bus is free state detected"), UVM_NONE);
   endtask: wait_for_idle_state
 
 
@@ -70,6 +68,7 @@ interface i3c_target_driver_bfm(input pclk,
     driveAddressAck(dataPacketStruck.targetAddressStatus);
 
     if(dataPacketStruck.targetAddressStatus == ACK) begin
+`uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is ACK"), UVM_NONE);
       if(dataPacketStruck.operation == WRITE) begin
         sampleWriteDataAndDriveACK(dataPacketStruck,
                                    configPacketStruck);
@@ -78,6 +77,7 @@ interface i3c_target_driver_bfm(input pclk,
                                   configPacketStruck);
       end
     end else begin
+       `uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is NACK"), UVM_NONE);
       detect_stop();
     end
   endtask: drive_data
@@ -88,6 +88,7 @@ interface i3c_target_driver_bfm(input pclk,
     fork
       begin
         for(int i=0;i<MAXIMUM_BYTES;i++) begin
+	  `uvm_info(name, $sformatf("%0d inside sampling write data and data ack*************", i), UVM_NONE);
           sample_write_data(configPacketStruck,dataPacketStruck,i);
           driveWdataAck(dataPacketStruck.writeDataStatus[i]);
           if(dataPacketStruck.writeDataStatus[i] == NACK)
@@ -130,17 +131,18 @@ interface i3c_target_driver_bfm(input pclk,
 
   task detect_start();
     // 2bit shift register to check the edge on sda and stability on scl
-    automatic bit [1:0] scl_local = 2'b11;
-    automatic  bit [1:0] sda_local = 2'b11;
+    bit [1:0] scl_local;
+    bit [1:0] sda_local;
 
     state = START;
+    `uvm_info("************************************************************************************************", $sformatf("before start detect"), UVM_NONE);
     do begin
       @(negedge pclk);
       scl_local = {scl_local[0], scl_i};
       sda_local = {sda_local[0], sda_i};
- //`uvm_info(name, $sformatf(   "detect_start: scl_i=%0b sda_i=%0b scl_local=%0b sda_local=%0b", scl_i, sda_i, scl_local, sda_local), UVM_NONE)
-    end while(!(sda_local == NEGEDGE && scl_local[1] == 2'b11) );
-    `uvm_info(name, $sformatf("Start condition is detected"), UVM_NONE);
+    end while(!(sda_local == NEGEDGE && scl_local == 2'b11) );
+    `uvm_info(name, $sformatf("Start condition is detected"), UVM_HIGH);
+    `uvm_info("************************************************************************************************", $sformatf("after start detect"), UVM_NONE);
   endtask: detect_start
 
 
@@ -151,18 +153,24 @@ interface i3c_target_driver_bfm(input pclk,
     for(int k=TARGET_ADDRESS_WIDTH-1;k>=0; k--) begin
       detectEdge_scl(POSEDGE);
       local_addr[k] = sda_i;
-    drive_sda(1);
+      drive_sda(1);
     end
 
     `uvm_info(name, $sformatf("DEBUG :: Value of local_addr = %0x", local_addr[6:0]), UVM_NONE); 
     pkt.targetAddress = local_addr;
 
     `uvm_info(name, $sformatf("DEBUG :: Value of target_address = %0x", cfg_pkt.targetAddress), UVM_NONE); 
+`uvm_info("************************************************************************************************", $sformatf("sampling target address"), UVM_NONE);
+
     if(local_addr != cfg_pkt.targetAddress) begin
       pkt.targetAddressStatus = NACK;
+	`uvm_info("************************************************************************************************", $sformatf("NACK sent"), UVM_NONE);
+
     end
     else begin
       pkt.targetAddressStatus = ACK;
+`uvm_info("************************************************************************************************", $sformatf("ACK sent"), UVM_NONE);
+
     end
   endtask: sample_target_address
 
@@ -177,13 +185,19 @@ interface i3c_target_driver_bfm(input pclk,
 
     if(operation == 1'b0) begin
       wr_rd = WRITE;
+`uvm_info("************************************************************************************************", $sformatf("sample opearation WRITE"), UVM_NONE);
+
     end else begin
       wr_rd = READ;
+`uvm_info("************************************************************************************************", $sformatf("sample opearation READ"), UVM_NONE);
+
     end
   endtask: sample_operation
 
 
   task driveAddressAck(input bit ack);
+`uvm_info("************************************************************************************************", $sformatf("driving address ACk= %0d",ack), UVM_NONE);
+
     state = ACK_NACK;
     detectEdge_scl(NEGEDGE);
     drive_sda(ack); 
@@ -279,20 +293,25 @@ interface i3c_target_driver_bfm(input pclk,
       sda_local = {sda_local[0], sda_i};
     end while(!(sda_local == POSEDGE && scl_local == 2'b11) );
     `uvm_info(name, $sformatf("Stop condition is detected"), UVM_HIGH);
+
+
   endtask: detect_stop
 
 
   task drive_sda(input bit value);
+
+`uvm_info("************************************************************************************************", $sformatf("DRIVING ack sda = %0d", value), UVM_NONE);
+
     sda_oen <= value ? TRISTATE_BUF_OFF : TRISTATE_BUF_ON;
-  sda_o   <= value;
+    sda_o   <= value;
   endtask: drive_sda
 
-  /*
+  
   task drive_scl(input bit value);
     scl_oen <= value ? TRISTATE_BUF_OFF : TRISTATE_BUF_ON;
-  scl_o   <= value;
+    scl_o   <= value;
   endtask: drive_scl
-*/
+
 
   task detectEdge_scl(input edge_detect_e edgeSCL);
     // scl_local 2bit shift register to check the edge on scl
