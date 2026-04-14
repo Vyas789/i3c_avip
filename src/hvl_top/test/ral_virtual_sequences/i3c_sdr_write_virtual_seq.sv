@@ -41,7 +41,7 @@ if(i3c_env_cfg_h.regBlockHandle.wdatab_inst == null)
 
     // Start Target sequence
     fork
-      forever begin
+      begin
         target_seq_write = i3c_target_writeOperationWith8bitsData_seq::type_id::create("target_seq_write");
         target_seq_write.start(p_sequencer.i3c_target_seqr_h);
       end
