@@ -194,7 +194,6 @@ interface i3c_target_driver_bfm(input pclk,
     end
   endtask: sample_operation
 
-
   task driveAddressAck(input bit ack);
 `uvm_info("************************************************************************************************", $sformatf("driving address ACk= %0d",ack), UVM_NONE);
 
@@ -297,15 +296,13 @@ interface i3c_target_driver_bfm(input pclk,
 
   endtask: detect_stop
 
-
   task drive_sda(input bit value);
 
-`uvm_info("************************************************************************************************", $sformatf("DRIVING ack sda = %0d", value), UVM_NONE);
+`uvm_info("************************************************************************************************", $sformatf("DRIVING sda = %0d", value), UVM_NONE);
 
     sda_oen <= value ? TRISTATE_BUF_OFF : TRISTATE_BUF_ON;
     sda_o   <= value;
   endtask: drive_sda
-
   
   task drive_scl(input bit value);
     scl_oen <= value ? TRISTATE_BUF_OFF : TRISTATE_BUF_ON;
