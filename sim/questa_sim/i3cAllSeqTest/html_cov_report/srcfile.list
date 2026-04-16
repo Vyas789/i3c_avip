@@ -102,7 +102,7 @@
 ../../src/hvl_top/target/target_sequences//i3c_target_writeOperationWithRandomDataTransferWidth_seq.sv
 ../../src/hvl_top/target/target_sequences//i3c_target_writeOperationWithRandomWriteDataStatusNACK_seq.sv
 ../../src/hvl_top/target/target_sequences/i3c_target_seq_pkg.sv
-../../src/hvl_top/test/apb_master_ral_test.sv
+../../src/hvl_top/test/i3cAllSeqTest.sv
 ../../src/hvl_top/test/i3c_MultipleWritesMultipleReadsOperationWith32bitsData_test.sv
 ../../src/hvl_top/test/i3c_ReadFollowedByWriteFollowedByReadOperationWith32bitsData_test.sv
 ../../src/hvl_top/test/i3c_WriteFollowedByReadFollowedByWriteFollowedByReadOperationWith32bitsData_test.sv

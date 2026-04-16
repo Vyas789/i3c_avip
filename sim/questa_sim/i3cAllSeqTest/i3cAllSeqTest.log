@@ -1,13 +1,6 @@
 # vsim -vopt work.hvl_top work.hdl_top -voptargs="+acc=npr" -sv_seed random -assertdebug "+UVM_TESTNAME=i3cAllSeqTest" "+UVM_VERBOSITY=UVM_MEDIUM" "+define+" -l i3cAllSeqTest/i3cAllSeqTest.log -sva -coverage -c -do "log -r /*; add wave -r /*; coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb; run -all; exit" -wlf i3cAllSeqTest/waveform.wlf 
-# Start time: 17:45:46 on Apr 16,2026
-# ** Note: (vsim-3812) Design is being optimized...
-# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_bit_engine(fast)".
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2685) [TFMPC] - Too few port connections for 'x2'.  Expected 19, found 17.
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_ccc_is_read'.
-# ** Warning: ../../rtl_dev/src/I3C_TOP.v(133): (vopt-2718) [TFMPC] - Missing connection for port 'sdr_is_ccc'.
-# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_daa_fsm(fast)".
-# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_sdr_fsm(fast)".
-# ** Note: (vopt-143) Recognized 1 FSM in module "i3c_scl_gen(fast)".
+# Start time: 22:18:14 on Apr 16,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # //  Questa Sim
 # //  Version 10.6c linux Jul 25 2017
 # //
@@ -85,7 +78,7 @@
 # ** Warning: (vsim-3839) ../../src/hdl_top/target_agent_bfm/i3c_target_agent_bfm.sv(11): Variable '/hdl_top/intf_target/sda_oen', driven via a port connection, is multiply driven. See ../../src/hdl_top/controller_agent_bfm/i3c_controller_agent_bfm.sv(13).
 #    Time: 0 ns  Iteration: 0  Instance: /hdl_top/i3c_target_agent_bfm[0]/i3c_target_agent_bfm_h/i3c_target_drv_bfm_h File: ../../src/hdl_top/target_agent_bfm/i3c_target_driver_bfm.sv
 # Loading /tools/mentor/questasim_10.6c/questasim/uvm-1.1d/linux/uvm_dpi.so
-# Sv_Seed = 477810340
+# Sv_Seed = 1082330350
 # log -r /*
 #  add wave -r /*
 #  coverage save -onexit -assert -directive -cvg -codeAll i3cAllSeqTest/i3cAllSeqTest_coverage.ucdb
@@ -222,7 +215,7 @@
 #       num_last_rsps               integral                            32    'd1  
 # ---------------------------------------------------------------------------------
 # 
-# UVM_INFO ../../src/hvl_top/test/apb_master_ral_test.sv(96) @ 0: uvm_test_top [i3cAllSeqTest] Starting ONLY SDR WRITE sequence
+# UVM_INFO ../../src/hvl_top/test/i3cAllSeqTest.sv(96) @ 0: uvm_test_top [i3cAllSeqTest] Starting ONLY SDR WRITE sequence
 # UVM_INFO ../../src/hvl_top/apb_master//apb_master_monitor_proxy.sv(84) @ 0: uvm_test_top.i3c_env_h.apb_master_agent_h.apb_master_mon_proxy_h [apb_master_monitor_proxy] Inside the master_monitor_proxy
 # UVM_INFO ../../src/hvl_top/test/ral_virtual_sequences//i3c_sdr_write_virtual_seq.sv(39) @ 0: uvm_test_top.i3c_env_h.top_virtual_seqr_h@@sdrWriteSeq [i3c_sdr_write_virtual_seq] Starting SDR WRITE test
 # RTL @ 10: scl_o changed to 1 scl_oe=0
@@ -581,7 +574,7 @@
 # UVM_INFO ../../src/hvl_top/target//i3c_target_seq_item_converter.sv(43) @ 3481: reporter [target_seq_item_conv_class] To class targetAddress = 
 #  104
 # UVM_INFO ../../src/hvl_top/target//i3c_target_seq_item_converter.sv(52) @ 3481: reporter [target_seq_item_conv_class] To class readData = 
-#  96
+#  238
 # UVM_INFO ../../src/hvl_top/target//i3c_target_seq_item_converter.sv(64) @ 3481: reporter [target_seq_item_conv_class] To class writeData =  10100101
 # UVM_INFO ../../src/hvl_top/target//i3c_target_driver_proxy.sv(93) @ 3481: uvm_test_top.i3c_env_h.i3c_target_agent_h[0].i3c_target_drv_proxy_h [TGT_DRV_PROXY] item_done called
 # UVM_INFO ../../src/hvl_top/env/i3c_scoreboard.sv(167) @ 3481: uvm_test_top.i3c_env_h.i3c_scoreboard_h [SB_ADDR_MATCH] Address match: 0x68
@@ -670,5 +663,5 @@
 # ** Note: $finish    : /tools/mentor/questasim_10.6c/questasim/linux/../verilog_src/uvm-1.1d/src/base/uvm_root.svh(430)
 #    Time: 103410 ns  Iteration: 53  Instance: /hvl_top
 # Saving coverage database on exit...
-# End time: 17:45:51 on Apr 16,2026, Elapsed time: 0:00:05
-# Errors: 0, Warnings: 7
+# End time: 22:18:16 on Apr 16,2026, Elapsed time: 0:00:02
+# Errors: 0, Warnings: 4
