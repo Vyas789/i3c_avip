@@ -1,0 +1,7 @@
+var g_db_data = [
+{dummy:0},
+{name:'apb_master_covergroup',f:1,type:6,id:3679,tb:'145',h:'10',m:'135',hp:'6.89%',cov:['26.04%','R'],g:'100.00%',gp:['26.04%','R'],opts:[[],['merge_instance','auto(true)']],hdlPath:'/apb_master_pkg/apb_master_coverage',parent:'3674'},
+{name:'target_covergroup',f:1,type:6,id:3815,tb:'47',h:'12',m:'35',hp:'25.53%',cov:['42.59%','R'],g:'100.00%',gp:['42.59%','R'],opts:[[],['merge_instance','auto(true)']],hdlPath:'/i3c_target_pkg/i3c_target_coverage',parent:'3810'},
+{name:'apb_master_covergroup',f:1,type:6,id:6119,tb:'145',h:'10',m:'135',hp:'6.89%',cov:['26.04%','R'],g:'100.00%',gp:['26.04%','R'],opts:[[],['merge_instance','true']],hdlPath:'work.apb_master_pkg::apb_master_coverage',parent:'6114'},
+{name:'target_covergroup',f:1,type:6,id:6388,tb:'47',h:'12',m:'35',hp:'25.53%',cov:['42.59%','R'],g:'100.00%',gp:['42.59%','R'],opts:[[],['merge_instance','true']],hdlPath:'work.i3c_target_pkg::i3c_target_coverage',parent:'6383'}];
+processConsCovergroupsData(g_db_data);

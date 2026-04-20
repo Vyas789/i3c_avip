@@ -28,7 +28,7 @@ class i3c_scoreboard extends uvm_component;
 
   // Accumulated write data bytes from WDATAB writes
   bit [7:0]  exp_write_data[$];
-
+  bit[7:0]exp_rd_wr_data[$];
   extern function new(string name = "i3c_scoreboard", uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual task          run_phase(uvm_phase phase);
@@ -127,6 +127,7 @@ task i3c_scoreboard::collect_apb_transaction();
     if(apb_pkt.pwrite == apb_global_pkg::WRITE && 
        apb_pkt.paddr[6:0] == 7'h30) begin
       exp_write_data.push_back(apb_pkt.pwdata[7:0]);
+      exp_rd_wr_data.push_back(apb_pkt.pwdata[7:0]);
       `uvm_info("SB", $sformatf("WDATAB collected = 0x%0x", 
                 apb_pkt.pwdata[7:0]), UVM_HIGH)
     end
@@ -210,12 +211,13 @@ task i3c_scoreboard::compare_with_target();
     bit [7:0] apb_read_data[$];
     apb_master_tx rd_pkt;
     int rd_count = 0;
-
+ int exp_data_rd_wr=0;
     while (rd_count < int'(exp_length)) begin
       apb_analysis_fifo.get(rd_pkt);
       apb_tx_count++;
       if (rd_pkt.pwrite == apb_global_pkg::READ && rd_pkt.paddr[6:0] == 7'h40) begin
         apb_read_data.push_back(rd_pkt.prdata[7:0]);
+        //exp_data_rd_wr=exp_rd_wr_data.pop_front();
         rd_count++;
         `uvm_info("SB", $sformatf("RDATAB[%0d] = 0x%0x",
                   rd_count-1, rd_pkt.prdata[7:0]), UVM_HIGH)
@@ -225,18 +227,18 @@ task i3c_scoreboard::compare_with_target();
     if (apb_read_data.size() != tgt.readData.size()) begin
       `uvm_error("SB_RDATA_SIZE",
         $sformatf("Read data size mismatch: expected %0d  got %0d",
-                  apb_read_data.size(), tgt.readData.size()))
+                  exp_rd_wr_data.size(), tgt.readData.size()))
     end else begin
-      for (int i = 0; i < apb_read_data.size(); i++) begin
-        if (apb_read_data[i] == tgt.readData[i][7:0]) begin
+      for (int i = 0; i < exp_rd_wr_data.size(); i++) begin
+        if (exp_rd_wr_data[i] == tgt.readData[i][7:0]) begin
           `uvm_info("SB_RDATA_MATCH",
             $sformatf("readData[%0d]: expected 0x%0x  got 0x%0x",
-                      i, apb_read_data[i], tgt.readData[i][7:0]), UVM_MEDIUM)
+                      i, exp_rd_wr_data[i], tgt.readData[i][7:0]), UVM_MEDIUM)
           read_pass++;
         end else begin
           `uvm_error("SB_RDATA_MISMATCH",
             $sformatf("readData[%0d]: expected 0x%0x  got 0x%0x",
-                      i, apb_read_data[i], tgt.readData[i][7:0]))
+                      i, exp_rd_wr_data[i], tgt.readData[i][7:0]))
           read_fail++;
         end
       end

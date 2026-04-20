@@ -281,40 +281,6 @@ i3c_scl_gen x9 (
   .scl_o      (scl_o),   
   .scl_oe     (scl_oe) 
 );
-always @(posedge clk) begin
-
-  if(cmd_start)
-
-    $display("RTL @ %0t: cmd_start asserted", $time);
-
-  if(start_sdr)
-
-    $display("RTL @ %0t: start_sdr asserted", $time);
-
-  if(sda_oe)
-
-    $display("RTL @ %0t: sda_oe asserted sda_o=%0b", $time, sda_o);
-
-end
-
-
-
-always @(scl_o) begin
-
-  $display("RTL @ %0t: scl_o changed to %0b scl_oe=%0b", 
-
-           $time, scl_o, scl_oe);
-
-end
-always @(posedge clk) begin
-  if(start_sdr)
-    $display("RTL @ %0t: start_sdr=1 sdr_addr=%0h sdr_len=%0d sdr_dir=%0b",
-             $time, sdr_addr, sdr_len, sdr_dir1);
-  if(be_valid)
-    $display("RTL @ %0t: be_valid asserted be_rw=%0b", $time, be_rw);
-  if(start)
-    $display("RTL @ %0t: START condition generated!", $time);
-end
 
 endmodule
 

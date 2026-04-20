@@ -46,6 +46,7 @@ interface i3c_target_driver_bfm(input pclk,
     drive_scl(1);
     drive_sda(1);
     state <= IDLE;
+    `uvm_info(name, $sformatf("inside idle state"), UVM_HIGH);
   endtask: drive_idle_state
 
 
@@ -61,14 +62,14 @@ interface i3c_target_driver_bfm(input pclk,
 
   task drive_data(inout i3c_transfer_bits_s dataPacketStruck, 
                   input i3c_transfer_cfg_s configPacketStruck);
-  
+    `uvm_info(name, $sformatf("target txn started"), UVM_HIGH);
     detect_start();
     sample_target_address(configPacketStruck,dataPacketStruck);
     sample_operation(dataPacketStruck.operation);
     driveAddressAck(dataPacketStruck.targetAddressStatus);
-
+ 
     if(dataPacketStruck.targetAddressStatus == ACK) begin
-`uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is ACK"), UVM_NONE);
+      `uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is ACK"), UVM_HIGH);
       if(dataPacketStruck.operation == WRITE) begin
         sampleWriteDataAndDriveACK(dataPacketStruck,
                                    configPacketStruck);
@@ -77,7 +78,7 @@ interface i3c_target_driver_bfm(input pclk,
                                   configPacketStruck);
       end
     end else begin
-       `uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is NACK"), UVM_NONE);
+       `uvm_info(name, $sformatf("datapacketstruct.targetaddressstatus is NACK"), UVM_HIGH);
       detect_stop();
     end
   endtask: drive_data
@@ -85,10 +86,10 @@ interface i3c_target_driver_bfm(input pclk,
 
   task sampleWriteDataAndDriveACK(inout i3c_transfer_bits_s dataPacketStruck,
                                   input i3c_transfer_cfg_s configPacketStruck);
+    `uvm_info(name, $sformatf("sample write data and drive ack started"), UVM_HIGH);
     fork
       begin
         for(int i=0;i<MAXIMUM_BYTES;i++) begin
-	  `uvm_info(name, $sformatf("%0d inside sampling write data and data ack*************", i), UVM_NONE);
           sample_write_data(configPacketStruck,dataPacketStruck,i);
           driveWdataAck(dataPacketStruck.writeDataStatus[i]);
           if(dataPacketStruck.writeDataStatus[i] == NACK)
@@ -96,7 +97,7 @@ interface i3c_target_driver_bfm(input pclk,
         end
       end
     join_none
-
+    `uvm_info(name, $sformatf("sampling of write data and driving ACK done"), UVM_HIGH);
     wrDetect_stop();
     disable fork;
   endtask: sampleWriteDataAndDriveACK
@@ -104,6 +105,7 @@ interface i3c_target_driver_bfm(input pclk,
 
   task driveReadDataAndSampleACK(inout i3c_transfer_bits_s dataPacketStruck,
                                  input i3c_transfer_cfg_s configPacketStruck);
+    `uvm_info(name, $sformatf("drive read data and sample ack started"), UVM_HIGH);
     fork
       begin
         for(int i=0;i<MAXIMUM_BYTES;i++) begin
@@ -135,24 +137,24 @@ interface i3c_target_driver_bfm(input pclk,
     bit [1:0] sda_local;
 
     state = START;
-    `uvm_info("************************************************************************************************", $sformatf("before start detect"), UVM_NONE);
+    `uvm_info(name,$sformatf("start detect"), UVM_HIGH);
     do begin
       @(negedge pclk);
       scl_local = {scl_local[0], scl_i};
       sda_local = {sda_local[0], sda_i};
     end while(!(sda_local == NEGEDGE && scl_local == 2'b11) );
     `uvm_info(name, $sformatf("Start condition is detected"), UVM_HIGH);
-    `uvm_info("************************************************************************************************", $sformatf("after start detect"), UVM_NONE);
-  endtask: detect_start
+    endtask: detect_start
 
 
   task sample_target_address(input i3c_transfer_cfg_s cfg_pkt, inout i3c_transfer_bits_s pkt);
     bit [TARGET_ADDRESS_WIDTH-1:0] local_addr;
-
+    `uvm_info(name, $sformatf("target address sampling started"), UVM_HIGH);
     state = ADDRESS;
     for(int k=TARGET_ADDRESS_WIDTH-1;k>=0; k--) begin
       detectEdge_scl(POSEDGE);
       local_addr[k] = sda_i;
+      `uvm_info(name, $sformatf("sampled %0d bit as %0d", k, sda_i), UVM_HIGH);
       drive_sda(1);
     end
 
@@ -160,17 +162,13 @@ interface i3c_target_driver_bfm(input pclk,
     pkt.targetAddress = local_addr;
 
     `uvm_info(name, $sformatf("DEBUG :: Value of target_address = %0x", cfg_pkt.targetAddress), UVM_NONE); 
-`uvm_info("************************************************************************************************", $sformatf("sampling target address"), UVM_NONE);
-
     if(local_addr != cfg_pkt.targetAddress) begin
       pkt.targetAddressStatus = NACK;
-	`uvm_info("************************************************************************************************", $sformatf("NACK sent"), UVM_NONE);
-
+      `uvm_info(name, $sformatf("address doent exist NACK"), UVM_HIGH);
     end
     else begin
       pkt.targetAddressStatus = ACK;
-`uvm_info("************************************************************************************************", $sformatf("ACK sent"), UVM_NONE);
-
+      `uvm_info(name, $sformatf("address exist ACK"), UVM_HIGH);
     end
   endtask: sample_target_address
 
@@ -185,17 +183,16 @@ interface i3c_target_driver_bfm(input pclk,
 
     if(operation == 1'b0) begin
       wr_rd = WRITE;
-`uvm_info("************************************************************************************************", $sformatf("sample opearation WRITE"), UVM_NONE);
+      `uvm_info(name, $sformatf("sample opearation WRITE"), UVM_HIGH);
 
     end else begin
       wr_rd = READ;
-`uvm_info("************************************************************************************************", $sformatf("sample opearation READ"), UVM_NONE);
-
+      `uvm_info(name, $sformatf("sample opearation READ"), UVM_HIGH);
     end
   endtask: sample_operation
 
   task driveAddressAck(input bit ack);
-`uvm_info("************************************************************************************************", $sformatf("driving address ACk= %0d",ack), UVM_NONE);
+    `uvm_info(name, $sformatf("driving address Acknowledgement as= %0d",ack), UVM_HIGH);
 
     state = ACK_NACK;
     detectEdge_scl(NEGEDGE);
@@ -214,8 +211,9 @@ interface i3c_target_driver_bfm(input pclk,
       // Logic for MSB first or LSB first 
       bit_no = (cfg_pkt.dataTransferDirection == MSB_FIRST) ? 
                 ((DATA_WIDTH - 1) - k) : k;
-
+      
       detectEdge_scl(POSEDGE);
+      `uvm_info(name, $sformatf("sampling write data bit %0d as = %0d",bit_no, sda_i), UVM_HIGH);
       wdata[bit_no] = sda_i;
       pkt.no_of_i3c_bits_transfer++;
     end
@@ -232,6 +230,7 @@ interface i3c_target_driver_bfm(input pclk,
   task driveWdataAck(input bit ack);
     state = ACK_NACK;
     detectEdge_scl(NEGEDGE);
+    `uvm_info(name, $sformatf("driving wdata acknlowledgement as %0d",ack), UVM_HIGH);
     drive_sda(ack); 
     detectEdge_scl(NEGEDGE);
     drive_sda(1);
@@ -246,6 +245,7 @@ interface i3c_target_driver_bfm(input pclk,
       bit_no = (dir == MSB_FIRST) ? 
                 ((DATA_WIDTH - 1) - k) : k;
       
+      `uvm_info(name, $sformatf("driving read data bit %0d as = %0d",bit_no, rdata[bit_no]), UVM_HIGH);
       drive_sda(rdata[bit_no]);
       pkt.no_of_i3c_bits_transfer++;
       detectEdge_scl(NEGEDGE);
@@ -297,9 +297,6 @@ interface i3c_target_driver_bfm(input pclk,
   endtask: detect_stop
 
   task drive_sda(input bit value);
-
-`uvm_info("************************************************************************************************", $sformatf("DRIVING sda = %0d", value), UVM_NONE);
-
     sda_oen <= value ? TRISTATE_BUF_OFF : TRISTATE_BUF_ON;
     sda_o   <= value;
   endtask: drive_sda

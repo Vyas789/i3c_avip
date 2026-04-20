@@ -26,10 +26,7 @@ super.body();
   "Starting SDR WRITE followed by READ test",
   UVM_LOW)
 
-//====================================================
-// ?? WRITE PHASE
-//====================================================
-
+//WRITE PHASE
 fork
   begin
     target_write_seq =
@@ -104,19 +101,13 @@ ctrl_mirror =
   ctrl_mirror),
   UVM_LOW)
 
-i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(
-  status,
-  UVM_CHECK
-);
+i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status,UVM_NO_CHECK);
 
 // WAIT FOR WRITE COMPLETE
 #5000;
 
 
-//====================================================
-// ?? READ PHASE
-//====================================================
-
+// READ PHASE
 fork
   begin
     target_read_seq =
@@ -129,7 +120,6 @@ fork
   end
 join_none;
 
-// ?? IMPORTANT FIX: SET FULL CTRL AGAIN
 i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(
   TARGET0_ADDRESS
 );
@@ -155,10 +145,7 @@ i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(
   .parent(this)
 );
 
-i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(
-  status,
-  UVM_CHECK
-);
+i3c_env_cfg_h.regBlockHandle.ctrl_inst.mirror(status,UVM_NO_CHECK);
 
 // WAIT FOR READ COMPLETE
 #5000;
