@@ -74,7 +74,6 @@ class i3c_daa_sdr_virtual_seq extends top_virtual_base_seq;
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
-    // status polling removed
 
     #5000;
 
@@ -94,7 +93,6 @@ class i3c_daa_sdr_virtual_seq extends top_virtual_base_seq;
 
     i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(status);
 
-    // status polling removed
 
     #5000;
 

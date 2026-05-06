@@ -12,32 +12,6 @@ function i3c_target_writeOperationWith8bitsData_seq::new(string name = "i3c_targ
   super.new(name);
 endfunction : new
 
-/*
-task i3c_target_writeOperationWith8bitsData_seq::body();
-
-//  super.body();
-
-// GopalS:   req.i3c_target_agent_cfg_h = p_sequencer.i3c_target_agent_cfg_h;
-
-// GopalS:   `uvm_info("DEBUG", $sformatf("address = %0x",
-// GopalS:   p_sequencer.i3c_target_agent_cfg_h.slave_address_array[0]), UVM_NONE)
-
-  req = i3c_target_tx::type_id::create("req"); 
-
-  start_item(req);
-
-    if(!req.randomize()) begin
-      `uvm_error(get_type_name(), "Randomization failed")
-    end
-else begin
-      `uvm_info(get_type_name(), $sformatf("Randomization SUCCESS - req contents below"), UVM_NONE)
-      req.print();
-    end
-  
-  finish_item(req);
-`uvm_info(get_type_name(), "finish_item returned - item sent to driver", UVM_NONE)
-endtask:body
-  */
 
 task i3c_target_writeOperationWith8bitsData_seq::body();
   req = i3c_target_tx::type_id::create("req");
@@ -45,19 +19,21 @@ task i3c_target_writeOperationWith8bitsData_seq::body();
 
     `uvm_info(get_type_name(), "Before randomization - req created", UVM_NONE)
 
-    // targetAddress is NOT rand - assign directly before randomize
-    req.targetAddress = 7'h68;
-    req.operation     = WRITE;
+req.targetAddress = p_sequencer.i3c_target_agent_cfg_h.targetAddress;
+
+req.operation     = WRITE;
 
     if(!req.randomize() with {
-        targetAddressStatus == ACK;   // override the 60% NACK bias
+        targetAddressStatus == ACK;   
     }) begin
       `uvm_error(get_type_name(), "Randomization failed")
     end else begin
-      // writeDataStatus size is soft==128, override to match transfer len=1
-      req.writeDataStatus    = new[1];
-      req.writeDataStatus[0] = ACK;
-      `uvm_info(get_type_name(), "Randomization SUCCESS - after overrides", UVM_NONE)
+      
+ req.writeDataStatus = new[64];
+    foreach(req.writeDataStatus[i])
+      req.writeDataStatus[i] = ACK;
+      
+`uvm_info(get_type_name(), "Randomization SUCCESS - after overrides", UVM_NONE)
       req.print();
     end
 
@@ -66,4 +42,3 @@ task i3c_target_writeOperationWith8bitsData_seq::body();
 endtask : body
 
 `endif
-

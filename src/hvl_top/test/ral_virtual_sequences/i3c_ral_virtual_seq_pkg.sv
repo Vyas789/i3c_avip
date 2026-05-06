@@ -17,8 +17,11 @@ package i3c_ral_virtual_seq_pkg;
   `include "top_virtual_base_seq.sv"
   `include "i3c_sdr_write_virtual_seq.sv"
   `include "i3c_sdr_read_virtual_seq.sv"
+  `include "i3c_sdr_multi_write_read_virtual_seq.sv"
   `include "i3c_invalid_addr_write_virtual_seq.sv"
   `include "i3c_fifo_full_write_virtual_seq.sv"
+`include "i3c_ccc_coverage_virtual_seq.sv"
+
   `include "i3c_rdatab_ro_seq.sv"
   `include "i3c_sdr_write_read_virtual_seq.sv"
   `include "i3c_sdr_write_read_write_read_virtual_seq.sv"
@@ -31,8 +34,11 @@ package i3c_ral_virtual_seq_pkg;
   `include "i3c_multi_wdatab_seq.sv"
   `include "i3c_daa_sdr_virtual_seq.sv"
   `include "i3c_read_write_read_seq.sv"
-  `include "i3c_mutli_write_read_back_seq.sv"
+  `include "i3c_multi_write_read_back_req.sv"
  
+//daa ral sequences
+`include "i3c_daa_virtual_seq.sv"
+`include "i3c_sdr_or_daa_virtual_seq.sv"
 
 endpackage : i3c_ral_virtual_seq_pkg
 

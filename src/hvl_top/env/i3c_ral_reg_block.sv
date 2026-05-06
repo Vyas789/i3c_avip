@@ -34,7 +34,6 @@ class i3c_ral_reg_block extends uvm_reg_block;
     wdatab_inst = i3c_wdatab_reg::type_id::create("wdatab_inst");
     wdatab_inst.build();
     wdatab_inst.configure(this);
-
     wdatab_inst.add_hdl_path_slice("tx_data", 0, 8);
    // wdatab_inst.set_coverage(UVM_CVR_FIELD_VALS);
 

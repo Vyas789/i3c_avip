@@ -1,3 +1,5 @@
+# do exclude_cov.do
+# coverage read -dataset merged_coverage merged_coverage.ucdb
 # //  Questa Sim
 # //  Version 10.6c linux Jul 25 2017
 # //
@@ -12,5 +14,8 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-# i3c_fifo_full_write_test/waveform.wlf opened as dataset "waveform"
-add wave -position insertpoint waveform:/hdl_top/dut/*
+# merged_coverage.ucdb opened as coverage dataset "merged_coverage"
+# coverage exclude -srcfile ../../rtl_dev/src/I3C_TOP.v -line 248
+# ** Warning: (vish-4036) The 'coverage exclude' command had no effect on some/all objects because
+# no matching coverage data was found.
+# 

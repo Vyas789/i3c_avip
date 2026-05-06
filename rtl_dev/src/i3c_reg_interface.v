@@ -28,11 +28,14 @@ module i3c_reg_interface (
   output reg         cmd_dir
 );
 
+
 reg [31:0] CTRL;
+reg [7:0]  WDATAB;   // For REG_WDATAB readback
 
 always @(posedge clk or negedge rst_n) begin
   if (!rst_n) begin
     CTRL       <= 0;
+    WDATAB     <= 0;
     Tx_wr_en   <= 0;
     Rx_rd_en   <= 0;
     cmd_start  <= 0;
@@ -61,12 +64,22 @@ always @(posedge clk or negedge rst_n) begin
         end
         `REG_WDATAB: begin
           Tx_wr_en  <= 1'b1;
-          Tx_wdata <= w_data;
+          Tx_wdata  <= w_data;
+          WDATAB    <= w_data; 
+$display("[%0t] REG_WRITE: WDATAB <= %0h", $time, w_data);
         end
       endcase
     end
     if (rd_en) begin
       case (addrs)
+        `REG_CTRL: begin
+          rd_data <= CTRL;
+        end
+        `REG_WDATAB: begin
+          r_data <= WDATAB;
+$display("[%0t] REG_INTERFACE rd: WDATAB=%0h assigning r_data=%0h",
+           $time, WDATAB, WDATAB);        
+end
         `REG_RDATAB: begin
           Rx_rd_en  <= 1'b1;
           r_data   <= Rx_rdata; 

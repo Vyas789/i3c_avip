@@ -4,25 +4,34 @@
 class i3c_target_monitor_proxy extends uvm_component;
   `uvm_component_utils(i3c_target_monitor_proxy)
 
-  i3c_target_tx tx;
-  i3c_target_agent_config i3c_target_agent_cfg_h;
-  virtual i3c_target_monitor_bfm i3c_target_mon_bfm_h;
-  uvm_analysis_port #(i3c_target_tx)target_analysis_port;
+  i3c_target_tx                       tx;
+  i3c_target_agent_config             i3c_target_agent_cfg_h;
+  virtual i3c_target_monitor_bfm      i3c_target_mon_bfm_h;
+  uvm_analysis_port #(i3c_target_tx)  target_analysis_port;
 
-  extern function new(string name = "i3c_target_monitor_proxy", uvm_component parent = null);
+
+  localparam bit [7:0] BCAST_7E_W  = 8'hFC;
+  localparam bit [7:0] ENTDAA_CODE = 8'h07;
+
+  extern function new(string name = "i3c_target_monitor_proxy",
+                      uvm_component parent = null);
   extern virtual function void build_phase(uvm_phase phase);
   extern virtual function void connect_phase(uvm_phase phase);
   extern virtual function void end_of_elaboration_phase(uvm_phase phase);
   extern virtual function void start_of_simulation_phase(uvm_phase phase);
-  extern virtual task run_phase(uvm_phase phase);
+  extern virtual task          run_phase(uvm_phase phase);
+
 
 endclass : i3c_target_monitor_proxy
 
-function i3c_target_monitor_proxy::new(string name = "i3c_target_monitor_proxy",
-                                 uvm_component parent = null);
+
+function i3c_target_monitor_proxy::new(
+  string name = "i3c_target_monitor_proxy",
+  uvm_component parent = null);
+
   super.new(name, parent);
-  target_analysis_port = new("target_analysis_port",this);
-tx = new();
+  target_analysis_port = new("target_analysis_port", this);
+  tx = new();
 endfunction : new
 
 
@@ -40,50 +49,98 @@ function void i3c_target_monitor_proxy::connect_phase(uvm_phase phase);
 endfunction : connect_phase
 
 
-function void i3c_target_monitor_proxy::end_of_elaboration_phase(uvm_phase phase);
+
+function void i3c_target_monitor_proxy::end_of_elaboration_phase(
+  uvm_phase phase);
   super.end_of_elaboration_phase(phase);
   i3c_target_mon_bfm_h.i3c_target_mon_proxy_h = this;
-endfunction  : end_of_elaboration_phase
+endfunction : end_of_elaboration_phase
 
 
-function void i3c_target_monitor_proxy::start_of_simulation_phase(uvm_phase phase);
+
+function void i3c_target_monitor_proxy::start_of_simulation_phase(
+  uvm_phase phase);
   super.start_of_simulation_phase(phase);
 endfunction : start_of_simulation_phase
 
 
+
+
 task i3c_target_monitor_proxy::run_phase(uvm_phase phase);
+  `uvm_info(get_type_name(), "Monitor Proxy running", UVM_HIGH)
+  `uvm_info(get_type_name(), "Waiting for reset",     UVM_HIGH)
 
-  i3c_target_tx tx_packet;
-
-  tx_packet = i3c_target_tx::type_id::create("tx_packet");
-
-  `uvm_info(get_type_name(),"Running the Monitor Proxy", UVM_HIGH)
-
-  `uvm_info(get_type_name(), "Waiting for reset", UVM_HIGH);
   i3c_target_mon_bfm_h.wait_for_reset();
   i3c_target_mon_bfm_h.sample_idle_state();
- 
+
   forever begin
-    i3c_transfer_bits_s struct_packet;
-    i3c_transfer_cfg_s struct_cfg;
 
-    i3c_target_mon_bfm_h.wait_for_idle_state();
-  
-    i3c_target_seq_item_converter::from_class(tx_packet, struct_packet);
-    i3c_target_cfg_converter::from_class(i3c_target_agent_cfg_h, struct_cfg);
-    `uvm_info(get_type_name(), $sformatf("Converted cfg struct\n%p",struct_cfg), UVM_HIGH)
+    if(i3c_target_agent_cfg_h != null &&
+       i3c_target_agent_cfg_h.has_daa) begin
 
-    i3c_target_mon_bfm_h.sample_data(struct_packet,struct_cfg);
+      
+      begin
+        i3c_target_tx daa_txn_q[$];
 
-    i3c_target_seq_item_converter::to_class(struct_packet,tx);
+        `uvm_info(get_type_name(),
+          "DAA mode: calling sample_daa()", UVM_MEDIUM)
+
+        i3c_target_mon_bfm_h.sample_daa(daa_txn_q);
+
+        foreach(daa_txn_q[i]) begin
+          `uvm_info(get_type_name(),
+            $sformatf("DAA device[%0d] captured:\n%s",
+                      i, daa_txn_q[i].sprint()), UVM_MEDIUM)
+          target_analysis_port.write(daa_txn_q[i]);
+        end
+
+        if(daa_txn_q.size() == 0)
+          `uvm_info(get_type_name(),
+            "DAA complete: no devices assigned", UVM_LOW)
+
+      i3c_target_agent_cfg_h.has_daa = 0;
+        `uvm_info(get_type_name(),
+          "DAA complete - switching to SDR monitoring mode", UVM_LOW)
+
+     
+        i3c_target_mon_bfm_h.wait_for_idle_state();  
+      end
+
+    end else begin
+
    
-    $cast(tx_packet, tx.clone());
-    `uvm_info(get_type_name(),$sformatf("Packet received from sample_data clone packet is \n %s",tx_packet.sprint()),UVM_HIGH)   
+      i3c_target_mon_bfm_h.wait_for_idle_state();  
 
-    target_analysis_port.write(tx_packet);
-  end
+      begin
+        i3c_target_tx       tx_packet;
+        i3c_transfer_bits_s struct_packet;
+        i3c_transfer_cfg_s  struct_cfg;
 
-endtask : run_phase
+        tx_packet = i3c_target_tx::type_id::create("tx_packet");
 
+        i3c_target_seq_item_converter::from_class(tx_packet, struct_packet);
+        i3c_target_cfg_converter::from_class(i3c_target_agent_cfg_h,
+                                             struct_cfg);
+
+        `uvm_info(get_type_name(),
+          $sformatf("SDR txn: converted cfg struct\n%p", struct_cfg),
+          UVM_HIGH)
+
+        i3c_target_mon_bfm_h.sample_data(struct_packet, struct_cfg);
+        i3c_target_seq_item_converter::to_class(struct_packet, tx);
+
+        $cast(tx_packet, tx.clone());
+        tx_packet.txn_type = i3c_target_tx::SDR;
+
+        `uvm_info(get_type_name(),
+          $sformatf("SDR packet captured:\n%s", tx_packet.sprint()),
+          UVM_HIGH)
+
+        target_analysis_port.write(tx_packet);
+      end
+
+    end
+
+  end 
+endtask : run_phase 
 `endif
-

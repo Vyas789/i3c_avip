@@ -47,16 +47,12 @@ endfunction : build_phase
 class top_virtual_sequencer extends uvm_sequencer #(uvm_sequence_item);
   `uvm_component_utils(top_virtual_sequencer)
 
-  // ENV CONFIG HANDLE (needed by RAL virtual sequences)
   i3c_env_config           i3c_env_cfg_h;
 
-  // APB MASTER SEQUENCER
   apb_master_sequencer     apb_master_seqr_h;
 
-  // I3C TARGET SEQUENCER
   i3c_target_sequencer     i3c_target_seqr_h;
 
-  // I3C CONTROLLER SEQUENCER
   i3c_controller_sequencer i3c_controller_seqr_h;
 
   function new(string name = "top_virtual_sequencer",

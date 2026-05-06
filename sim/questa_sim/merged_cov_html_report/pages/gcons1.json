@@ -1,0 +1,7 @@
+var g_db_data = [
+{dummy:0},
+{name:'target_covergroup',f:1,type:6,id:3519,tb:'29',h:'14',m:'15',hp:'48.27%',cov:['64.58%','Y'],g:'100.00%',gp:['64.58%','Y'],opts:[[],['merge_instance','auto(true)']],hdlPath:'/i3c_target_pkg/i3c_target_coverage',parent:'3514'},
+{name:'daa_covergroup',f:1,type:6,id:3537,tb:'7',h:'6',m:'1',hp:'85.71%',cov:['91.66%','G'],g:'100.00%',gp:['91.66%','G'],opts:[[],['merge_instance','auto(true)']],hdlPath:'/i3c_target_pkg/i3c_target_coverage',parent:'3514'},
+{name:'target_covergroup',f:1,type:6,id:6212,tb:'29',h:'14',m:'15',hp:'48.27%',cov:['64.58%','Y'],g:'100.00%',gp:['64.58%','Y'],opts:[[],['merge_instance','true']],hdlPath:'work.i3c_target_pkg::i3c_target_coverage',parent:'6207'},
+{name:'daa_covergroup',f:1,type:6,id:6230,tb:'7',h:'6',m:'1',hp:'85.71%',cov:['91.66%','G'],g:'100.00%',gp:['91.66%','G'],opts:[[],['merge_instance','true']],hdlPath:'work.i3c_target_pkg::i3c_target_coverage',parent:'6207'}];
+processConsCovergroupsData(g_db_data);

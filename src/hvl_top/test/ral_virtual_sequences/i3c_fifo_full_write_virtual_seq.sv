@@ -34,9 +34,7 @@ end
   "FIFO filled to depth 16",
   UVM_LOW)
 
-//====================================================
 // OVERFLOW WRITE 17th
-//====================================================
 i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(
   status,
   8'hFF,
@@ -47,9 +45,6 @@ i3c_env_cfg_h.regBlockHandle.wdatab_inst.write(
   "Attempted write beyond FIFO depth",
   UVM_LOW)
 
-//====================================================
-//NOW START TARGET (to drain FIFO)
-//====================================================
 fork
   begin
     i3c_target_writeOperationWith8bitsData_seq target_seq;
@@ -60,9 +55,6 @@ fork
   end
 join_none;
 
-//====================================================
-// TRIGGER WRITE TRANSFER
-//====================================================
 i3c_env_cfg_h.regBlockHandle.ctrl_inst.address.set(TARGET0_ADDRESS);
 i3c_env_cfg_h.regBlockHandle.ctrl_inst.length.set(8'd16);
 i3c_env_cfg_h.regBlockHandle.ctrl_inst.direction.set(1'b0); // WRITE
@@ -80,14 +72,8 @@ i3c_env_cfg_h.regBlockHandle.ctrl_inst.update(
   .parent(this)
 );
 
-//====================================================
-//WAIT FOR TRANSFER
-//====================================================
 #10000;
 
-//====================================================
-// EXPECTED CHECKS (VISUAL / SCOREBOARD)
-//====================================================
 `uvm_info(get_type_name(),
   "FIFO FULL WRITE test completed",
   UVM_LOW)

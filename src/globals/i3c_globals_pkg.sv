@@ -41,6 +41,28 @@ package i3c_globals_pkg;
   
   parameter BUS_IDLE_TIME = 1;  // 200ns as per spec table 86
   parameter BUS_FREE_TIME = 1;  // 0.5us as per spec page no 365 Table 85
+
+// I3C broadcast address (7-bit)
+  parameter bit [6:0] I3C_BROADCAST_ADDR  = 7'h7E;
+
+  // ENTDAA CCC code 
+  parameter bit [7:0] ENTDAA_CCC_CODE     = 8'h07;
+
+  // Broadcast address byte on bus {7'h7E, W=0} = 8'hFC
+  parameter bit [7:0] BCAST_ADDR_WRITE    = 8'hFC;
+
+  // Broadcast address byte on bus: {7'h7E, R=1} = 8'hFD
+  parameter bit [7:0] BCAST_ADDR_READ     = 8'hFD;
+
+  // Total arbitration bits: PID(48)+BCR(8)+DCR(8)
+  parameter int       DAA_ARB_BIT_COUNT   = 64;
+
+  parameter bit [6:0] DAA_FIRST_DYN_ADDR  = 7'h08;
+
+  // CTRL register cmd_type encoding
+  parameter bit [1:0] CMD_TYPE_DAA        = 2'd3;
+  parameter bit [1:0] CMD_TYPE_SDR = 2'b00;
+  parameter bit [1:0] CMD_TYPE_CCC = 2'b10;
   
   typedef enum bit {
     MSB_FIRST = 1'b0,
@@ -68,6 +90,12 @@ package i3c_globals_pkg;
     WRITE_READ  = 2'b10
   } writeReadMode_e;
 
+  typedef enum bit {
+    SDR = 1'b0,
+    DAA = 1'b1
+  } txn_type_e;
+
+
   // struct: i3c_bits_transfer_s
   typedef struct {
     bit [TARGET_ADDRESS_WIDTH-1:0]targetAddress;
@@ -79,6 +107,13 @@ package i3c_globals_pkg;
     bit [DATA_WIDTH-1:0] readData[MAXIMUM_BYTES];
     int no_of_i3c_bits_transfer; 
     bit [REGISTER_ADDRESS_WIDTH-1:0]register_address;
+   bit                              txn_type;
+    bit [47:0]                       pid;
+    bit [7:0]                        bcr;
+    bit [7:0]                        dcr;
+    bit [6:0]                        dynamic_address;
+    bit                              daa_ack;
+
    } i3c_transfer_bits_s;
   
   
@@ -92,7 +127,11 @@ package i3c_globals_pkg;
     int clockRateDividerValue;
     bit[TARGET_ADDRESS_WIDTH-1:0] targetAddress;
     bit [DATA_WIDTH-1:0]defaultReadData;
-  } i3c_transfer_cfg_s;
+ bit [47:0]                       pid;
+    bit [7:0]                        bcr;
+    bit [7:0]                        dcr;
+    bit                              daa_accept_address;  
+} i3c_transfer_cfg_s;
   
   // enum: i3c_fsm_state_e
   //
@@ -111,6 +150,18 @@ package i3c_globals_pkg;
     STOP
   }i3c_fsm_state_e;
 
+
+typedef enum bit [3:0] {
+    DAA_IDLE      = 4'd0,
+    DAA_SEND_7E_W = 4'd1,
+    DAA_ENTDAA    = 4'd2,
+    DAA_REP_START = 4'd3,
+    DAA_SEND_7E_R = 4'd4,
+    DAA_ARB_BITS  = 4'd5,
+    DAA_ASSIGN    = 4'd6,
+    DAA_LOOP      = 4'd7,
+    DAA_STOP      = 4'd8
+  } daa_fsm_state_e;
   
   // Enum: edge_detect_e
   //

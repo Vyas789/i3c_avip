@@ -46,6 +46,7 @@ localparam [3:0]
 reg [3:0] state, next_state;
 reg [7:0] byte_cnt;
 
+
 always @(posedge clk or negedge rst_n) begin
   if (!rst_n)
     state <= IDLE;
@@ -103,6 +104,7 @@ always @(posedge clk or negedge rst_n) begin
     endcase
   end
 end
+
 
 always @(*) begin
   push_pull = push_pull_hold;

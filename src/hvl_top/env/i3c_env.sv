@@ -44,6 +44,10 @@ function void i3c_env::build_phase(uvm_phase phase);
     `uvm_fatal("FATAL_ENV_CONFIG", $sformatf("Couldn't get the env_config from config_db"))
   end
 
+  if(i3c_env_cfg_h.has_daa && i3c_env_cfg_h.no_of_daa_devices == 0)
+    i3c_env_cfg_h.no_of_daa_devices = i3c_env_cfg_h.no_of_targets;
+
+
 // Create APB Master
   apb_master_agent_h = apb_master_agent::type_id::create("apb_master_agent_h",this);
 
