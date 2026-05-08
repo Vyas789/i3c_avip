@@ -66,7 +66,6 @@ always @(posedge clk or negedge rst_n) begin
           Tx_wr_en  <= 1'b1;
           Tx_wdata  <= w_data;
           WDATAB    <= w_data; 
-$display("[%0t] REG_WRITE: WDATAB <= %0h", $time, w_data);
         end
       endcase
     end
@@ -77,8 +76,6 @@ $display("[%0t] REG_WRITE: WDATAB <= %0h", $time, w_data);
         end
         `REG_WDATAB: begin
           r_data <= WDATAB;
-$display("[%0t] REG_INTERFACE rd: WDATAB=%0h assigning r_data=%0h",
-           $time, WDATAB, WDATAB);        
 end
         `REG_RDATAB: begin
           Rx_rd_en  <= 1'b1;
